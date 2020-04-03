@@ -27,3 +27,26 @@ nav ul {
     display: flex;
     flex-direction: column;
 }
+
+.game-page {
+    display: grid;
+    grid-template: "field chat" / 8fr 4fr;
+    height: 100%;
+    align-items: baseline;
+    grid-column-gap: 16px;
+    padding: 0 16px;
+}
+
+.game, .chat {
+    display: grid;
+    grid-template: "header" 1fr "content" 11fr;
+    height: 100%;
+}
+
+.field {
+    box-shadow: 0 0 5px 0 #084F85;
+}
+
+.field-header {
+    padding-top: 20px;
+}
