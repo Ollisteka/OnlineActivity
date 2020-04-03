@@ -1,0 +1,33 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
+  "parser": "babel-eslint",
+  "rules": {
+    "no-console": "warn",
+    "arrow-body-style": "off",
+    "object-shorthand": "warn",
+    "prefer-template": "warn",
+    "no-debugger": "warn",
+    "no-unused-vars": "warn",
+    "no-var": "warn",
+    "prefer-object-spread": "warn",
+    "no-trailing-spaces": "warn",
+    "prefer-const": "warn"
+  },
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "node": true,
+    "es6": true,
+    "jest": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2015,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  }
+}
