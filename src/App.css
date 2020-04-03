@@ -22,3 +22,8 @@ nav ul {
     list-style: none;
     justify-content: space-around;
 }
+
+.vertical {
+    display: flex;
+    flex-direction: column;
+}
