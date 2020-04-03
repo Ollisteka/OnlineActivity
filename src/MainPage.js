@@ -29,7 +29,7 @@ const InitGame = () => (
 export const MainPage = ({loggedOn = false}) => {
     return (
         <div className={'centered'}>
-            <header>
+            <header className={'page-header'}>
                 Online Activity
             </header>
 

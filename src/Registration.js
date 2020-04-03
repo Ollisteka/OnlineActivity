@@ -6,7 +6,7 @@ import Button from "@skbkontur/react-ui/Button";
 export const Registration = () => {
     const inputId = 'nickname';
     return (<div className={'centered'}>
-        <header>
+        <header className={'page-header'}>
             Регистрация
         </header>
 
