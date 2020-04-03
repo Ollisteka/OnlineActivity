@@ -39,14 +39,60 @@ nav ul {
 
 .game, .chat {
     display: grid;
-    grid-template: "header" 1fr "content" 11fr;
     height: 100%;
 }
 
+.game {
+    grid-template: "header" 1fr "content" 11fr;
+}
+
+.chat {
+    grid-template: "header" 1fr "posts" 10fr "input" 1fr;
+}
+
+.chat__disabled {
+    grid-template: "header" 1fr "posts" 11fr;
+}
+
+.chat__disabled .chat-body {
+    max-height: 780px;
+}
+
 .field {
-    box-shadow: 0 0 5px 0 #084F85;
+    box-shadow: 0 0 5px 0 #808080;
 }
 
 .field-header {
     padding-top: 20px;
+}
+
+.chat-body {
+    overflow-y: auto;
+    max-height: 700px;
+}
+
+.chat-input {
+    padding-top: 16px;
+    text-align: start;
+    display: flex;
+}
+
+.chat-input button {
+    flex-grow: 1;
+}
+
+.chat input {
+    flex-grow: 3;
+    margin-right: 5px;
+    font-size: 16px;
+    padding: 0 8px;
+}
+
+.post {
+    padding: 8px 0;
+    border-bottom: #A0A0A0 1px solid;
+}
+
+.post-author {
+    color: #808080;
 }

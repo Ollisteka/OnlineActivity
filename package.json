@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@skbkontur/react-ui": "^1.11.0",
+    "@skbkontur/react-icons": "^4.1.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
@@ -11,7 +12,8 @@
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
-    "prop-types": "latest"
+    "prop-types": "latest",
+    "classnames": "latest"
   },
   "scripts": {
     "start": "react-scripts start",

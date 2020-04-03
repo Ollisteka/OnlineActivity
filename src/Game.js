@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from 'prop-types';
+import {Chat} from "./Chat";
 
 export const GamePage = ({gameId = '1234-abcd', nickName = 'Смешарик'}) => {
     const secondsLeft = 299;
@@ -17,11 +18,7 @@ export const GamePage = ({gameId = '1234-abcd', nickName = 'Смешарик'}) 
                 </div>
                 <div className={'field'}>Это поле</div>
             </div>
-            <div className={'chat'}>
-                <div className={'field-header'}>Ваш никнейм: {nickName}</div>
-                <div className={'field'}>Это чат</div>
-            </div>
-
+            <Chat nickName={nickName}/>
         </div>
     );
 };
