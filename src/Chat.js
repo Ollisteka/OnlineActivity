@@ -31,7 +31,7 @@ const createNewPost = (nickName, comment) => {
     };
 };
 
-export const Chat = ({nickName, sendingDisabled = false}) => {
+export const Chat = ({nickName, isGameLead = true}) => {
     const [posts, updatePosts] = useState(defaultPosts);
     const [canSend, updateCanSend] = useState(false);
     const inputRef = useRef();
@@ -47,12 +47,12 @@ export const Chat = ({nickName, sendingDisabled = false}) => {
     };
 
     return (
-        <div className={classnames('chat', {'chat__disabled': sendingDisabled})}>
+        <div className={classnames('chat', {'chat__disabled': isGameLead})}>
             <div className={'field-header'}>Ваш никнейм: {nickName}</div>
             <div className={'field chat-body'}>
-                {posts.map(post => (<Post key={post.id} post={post}/>))}
+                {posts.map(post => (<Post key={post.id} post={post} activeReactions={isGameLead}/>))}
             </div>
-            {!sendingDisabled && (
+            {!isGameLead && (
                 <form className={'chat-input'} action={''} method={'XXX'}>
                     <input placeholder={'Угадайте слово'} name={'guess-word'} ref={inputRef}
                            onChange={evt => updateCanSend(!!evt.target.value)}/>
@@ -65,5 +65,5 @@ export const Chat = ({nickName, sendingDisabled = false}) => {
 
 Chat.propTypes = {
     nickName: PropTypes.string.isRequired,
-    sendingDisabled: PropTypes.bool
+    isGameLead: PropTypes.bool
 };

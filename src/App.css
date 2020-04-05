@@ -89,10 +89,63 @@ nav ul {
 }
 
 .post {
-    padding: 8px 0;
+    padding: 8px;
     border-bottom: #A0A0A0 1px solid;
+    display: flex;
+}
+
+.post__warm {
+    background-color: rgba(255, 68, 0, .1);
+}
+
+.post__cold {
+    background-color: rgba(102, 187, 238, .1);
+}
+
+.post__correct {
+    background-color: rgba(0, 238, 2, 0.1);
+}
+
+.post .content {
+    flex-grow: 1;
 }
 
 .post-author {
     color: #808080;
+}
+
+.icon {
+
+}
+
+.icon-flame {
+    color: red;
+}
+
+.cold-button {
+    background: url("/icons/snow.svg");
+}
+
+.warm-button {
+    background: url("/icons/flame.svg");
+}
+
+.correct-button {
+    background: url("/icons/checkmark.svg");
+}
+
+.correct-button,
+.cold-button,
+.warm-button {
+    background-size: contain;
+    width: 42px;
+    border: none;
+    cursor: pointer;
+    transition: filter 300ms;
+}
+
+.correct-button:hover,
+.cold-button:hover,
+.warm-button:hover {
+    filter: opacity(.7);
 }
