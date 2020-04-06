@@ -149,3 +149,17 @@ nav ul {
 .warm-button:hover {
     filter: opacity(.7);
 }
+
+.board .row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+}
+
+.row-header {
+    font-weight: bold;
+}
+
+.row div {
+    padding-right: 16px;
+}
