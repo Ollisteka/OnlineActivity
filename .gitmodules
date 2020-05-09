@@ -1,0 +1,3 @@
+[submodule "vostok.devtools"]
+	path = vostok.devtools
+	url = https://github.com/vostok/devtools.git
