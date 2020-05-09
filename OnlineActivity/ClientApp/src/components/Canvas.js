@@ -1,10 +1,11 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
+import * as signalR from "@microsoft/signalr";
 
-
-export const Canvas = ({ width, height }) => {
+export const Canvas = ({width, height}) => {
     const canvasRef = useRef(null);
     const [isPainting, setIsPainting] = useState(false);
     const [mousePosition, setMousePosition] = useState(undefined);
+    const [canvasConnection, setCanvasConnection] = useState(undefined);
 
     const startPaint = useCallback((event) => {
         const coordinates = getCoordinates(event);
@@ -13,6 +14,25 @@ export const Canvas = ({ width, height }) => {
             setIsPainting(true);
         }
     }, []);
+
+    useEffect(() => {
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/canvas")
+            .build();
+
+        connection.on("DrawLine", (line) => {
+            drawLine(
+                {X: parseInt(line.start.x), Y: parseInt(line.start.y)},
+                {X: parseInt(line.end.x), Y: parseInt(line.end.y)})
+        });
+
+        connection.start().then(_ => setCanvasConnection(connection));
+
+        return () => {
+            connection.stop().then(_ => setCanvasConnection(undefined))
+        }
+    }, []);
+
 
     useEffect(() => {
         if (!canvasRef.current) {
@@ -30,12 +50,14 @@ export const Canvas = ({ width, height }) => {
             if (isPainting) {
                 const newMousePosition = getCoordinates(event);
                 if (mousePosition && newMousePosition) {
+                    if (canvasConnection)
+                        canvasConnection.invoke("DrawLine", {Start: mousePosition, End: newMousePosition});
                     drawLine(mousePosition, newMousePosition);
                     setMousePosition(newMousePosition);
                 }
             }
         },
-        [isPainting, mousePosition]
+        [isPainting, mousePosition, canvasConnection]
     );
 
     useEffect(() => {
@@ -73,13 +95,14 @@ export const Canvas = ({ width, height }) => {
         }
 
         const canvas = canvasRef.current;
-        return { x: event.pageX - canvas.offsetLeft, y: event.pageY - canvas.offsetTop };
+        return {X: event.pageX - canvas.offsetLeft, Y: event.pageY - canvas.offsetTop};
     };
 
     const drawLine = (originalMousePosition, newMousePosition) => {
         if (!canvasRef.current) {
             return;
         }
+
         const canvas = canvasRef.current;
         const context = canvas.getContext('2d');
         if (context) {
@@ -88,15 +111,15 @@ export const Canvas = ({ width, height }) => {
             context.lineWidth = 5;
 
             context.beginPath();
-            context.moveTo(originalMousePosition.x, originalMousePosition.y);
-            context.lineTo(newMousePosition.x, newMousePosition.y);
+            context.moveTo(originalMousePosition.X, originalMousePosition.Y);
+            context.lineTo(newMousePosition.X, newMousePosition.Y);
             context.closePath();
 
             context.stroke();
         }
     };
 
-    return <canvas ref={canvasRef} height={height} width={width} />;
+    return <canvas ref={canvasRef} height={height} width={width}/>;
 };
 
 Canvas.defaultProps = {
