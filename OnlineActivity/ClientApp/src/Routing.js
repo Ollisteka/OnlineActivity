@@ -5,8 +5,8 @@ import { AuthForm, AuthType } from "./components/AuthForm";
 import { GamePage } from "./components/Game";
 import { LeaderBoard } from "./components/Leaderboard";
 
-const registrationPage = '/registration';
-const loginPage = '/login';
+export const registrationPage = '/registration';
+export const loginPage = '/login';
 const homePage = '/home';
 const gamePage = '/game';
 const leaderBoardPage = '/leaderboard';

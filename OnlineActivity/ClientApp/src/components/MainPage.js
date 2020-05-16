@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import Gapped from "@skbkontur/react-ui/Gapped";
 import Button from "@skbkontur/react-ui/Button";
 import Input from "@skbkontur/react-ui/Input";
+import {registrationPage, loginPage} from "../Routing";
+import * as styles from './MainPage.module.css';
 
 const newGameId = '1234-abcd';
 
@@ -35,7 +37,15 @@ export const MainPage = ({loggedOn = false}) => {
 
             {loggedOn
                 ? <InitGame/>
-                : <Link to='/registration'>Регистрация</Link>}
+                : (
+                    <nav>
+                        <ul className={styles.navigation}>
+                            <li className={styles.navItem}><Link to={registrationPage}>Регистрация</Link></li>
+                            <li className={styles.navItem}><Link to={loginPage}>Вход</Link></li>
+                        </ul>
+                    </nav>
+                )
+            }
 
         </div>
     );
