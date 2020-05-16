@@ -2,8 +2,10 @@
 import PropTypes from 'prop-types';
 import {Chat} from "./Chat";
 import {Canvas} from "./Canvas";
+import * as styles from './Game.module.css';
+import * as classNames from 'classnames';
 
-export const GamePage = ({gameId = '1234-abcd', nickName = 'Смешарик'}) => {
+export const GamePage = ({gameId = '1234-abcd', nickName = 'Смешарик', wordToPaint = 'Сессия'}) => {
     const secondsLeft = 299;
     return (
         <div className={'game-page centered'}>
@@ -17,8 +19,14 @@ export const GamePage = ({gameId = '1234-abcd', nickName = 'Смешарик'}) 
                         До конца игры: {secondsLeft} сек.
                     </div>
                 </div>
-                <Canvas height={1000} width={1000}/>
-                <div className={'field'}>Это поле</div>
+                <div className={'field'}>
+                    {wordToPaint && (
+                        <div className={classNames('field', styles.header)}>Нарисуй слово:{' '}
+                            <span className={styles.word}>{wordToPaint}</span>
+                        </div>
+                    )}
+                    <Canvas height={800} width={1000}/>
+                </div>
             </div>
             <Chat nickName={nickName}/>
         </div>
