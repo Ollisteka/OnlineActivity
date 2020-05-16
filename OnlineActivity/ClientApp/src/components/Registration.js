@@ -1,23 +1,28 @@
 ﻿import React from "react";
 import Input from "@skbkontur/react-ui/Input";
-import Gapped from "@skbkontur/react-ui/Gapped";
 import Button from "@skbkontur/react-ui/Button";
+import * as styles from './Registration.module.css';
 
 export const Registration = () => {
-    const inputId = 'nickname';
+    const loginId = 'nickname';
+    const passwordId = 'password';
     return (<div className={'centered'}>
         <header className={'page-header'}>
             Регистрация
         </header>
 
         <form action={''} method={'XXX'}>
-            <Gapped gap={20} vertical>
-                <Gapped gap={20}>
-                    <label htmlFor={inputId}>Никнейм</label>
-                    <Input id={inputId} name={inputId} placeholder={'Смешарик'} type={'text'}/>
-                </Gapped>
+            <div className={styles.container}>
+                <div className={styles.row}>
+                    <label htmlFor={loginId}>Логин</label>
+                    <Input id={loginId} name={loginId} type={'text'} required/>
+                </div>
+                <div className={styles.row}>
+                    <label htmlFor={passwordId}>Пароль</label>
+                    <Input id={passwordId} name={passwordId} type={'password'} autocomplete={'new-password'} required/>
+                </div>
                 <Button use={'primary'} type={'submit'}>Зарегистрироваться</Button>
-            </Gapped>
+            </div>
         </form>
     </div>)
 };
