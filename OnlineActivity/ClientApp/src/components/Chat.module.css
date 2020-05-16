@@ -1,0 +1,30 @@
+﻿.disabled {
+    grid-template: "header" 1fr "posts" 11fr;
+}
+
+.disabled .body {
+    max-height: 780px;
+}
+
+.body {
+    overflow-y: auto;
+    max-height: 700px;
+    min-width: 300px;
+}
+
+.wordForm {
+    padding-top: 16px;
+    text-align: start;
+    display: flex;
+}
+
+.input {
+    flex-grow: 3;
+    margin-right: 5px;
+    font-size: 16px;
+    padding: 0 8px;
+}
+
+.send {
+    flex-grow: 1;
+}

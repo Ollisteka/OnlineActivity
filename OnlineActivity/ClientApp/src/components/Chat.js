@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import classnames from "classnames";
 import IconSend from "@skbkontur/react-icons/Send3"
 import {Post} from "./Post";
+import * as styles from './Chat.module.css';
 
 const defaultPosts = [
     {
@@ -47,16 +48,18 @@ export const Chat = ({nickName, isGameLead = true}) => {
     };
 
     return (
-        <div className={classnames('chat', {'chat__disabled': isGameLead})}>
+        <div className={classnames('chat', {[styles.disabled]: isGameLead})}>
             <div className={'field-header'}>Ваш никнейм: {nickName}</div>
-            <div className={'field chat-body'}>
+            <div className={classnames('field', styles.body)}>
                 {posts.map(post => (<Post key={post.id} post={post} activeReactions={isGameLead}/>))}
             </div>
             {!isGameLead && (
-                <form className={'chat-input'} action={''} method={'XXX'}>
-                    <input placeholder={'Угадайте слово'} name={'guess-word'} ref={inputRef}
-                           onChange={evt => updateCanSend(!!evt.target.value)}/>
-                    <button type={'button'} onClick={onSubmit} disabled={!canSend}><IconSend/></button>
+                <form className={styles.wordForm} action={''} method={'XXX'}>
+                    <input className={styles.input} placeholder={'Угадайте слово'} name={'guess-word'} ref={inputRef}
+                           onChange={evt => updateCanSend(!!evt.target.value)} autoComplete={'off'}/>
+                    <button className={styles.send} type={'button'} onClick={onSubmit} disabled={!canSend}>
+                        <IconSend/>
+                    </button>
                 </form>
             )}
         </div>
