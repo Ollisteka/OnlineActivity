@@ -17,7 +17,9 @@
     "react-scripts": "^3.0.1",
     "reactstrap": "^6.3.0",
     "rimraf": "^2.6.2",
-    "signalr-client-react": "^0.2.1"
+    "signalr-client-react": "^0.2.1",
+    "classnames": "latest",
+    "prop-types": "latest"
   },
   "devDependencies": {
     "ajv": "^6.9.1",
