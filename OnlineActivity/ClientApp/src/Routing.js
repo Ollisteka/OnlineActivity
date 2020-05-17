@@ -1,15 +1,20 @@
 ﻿import {Link, Route, Switch} from "react-router-dom";
 import React from "react";
+
 import { LoggedOnPage, MainPage } from "./components/MainPage";
 import { AuthForm, AuthType } from "./components/AuthForm";
 import { GamePage } from "./components/Game";
 import { LeaderBoard } from "./components/Leaderboard";
+import { CallbackPage } from "./components/CallbackPage";
+
 
 export const registrationPage = '/registration';
 export const loginPage = '/login';
 const homePage = '/home';
 const gamePage = '/game';
 const leaderBoardPage = '/leaderboard';
+const callbackPage = '/callback';
+
 
 export const Navigation = () => (
     <nav>
@@ -37,6 +42,7 @@ export const Main = () => (
             <Route exact path={homePage} component={LoggedOnPage}/>
             <Route exact path={gamePage} component={GamePage}/>
             <Route exact path={leaderBoardPage} component={LeaderBoard}/>
+            <Route exact path={callbackPage} component={CallbackPage}/>
         </Switch>
     </main>
 );

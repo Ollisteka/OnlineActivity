@@ -1,3 +1,4 @@
+using System;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OnlineActivity.Extensions;
 using OnlineActivity.Hubs;
+using OnlineActivity.Settings;
 
 namespace OnlineActivity
 {
@@ -26,8 +28,10 @@ namespace OnlineActivity
 
             services.AddSignalR();
             services.AddAutoMapper(typeof(Startup));
-            services.AddRepositories();
 
+            services.AddClients(Configuration);
+            services.AddRepositories();
+            
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/build";
