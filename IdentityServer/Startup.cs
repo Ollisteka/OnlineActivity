@@ -1,10 +1,11 @@
 using System;
+using AspNetCore.Identity.Mongo;
 using IdentityServer.Extensions;
+using IdentityServer.Models;
 using IdentityServer.Repositories;
-using IdentityServer.Store;
+using IdentityServer.Settings;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
-using IdentityServer4.Stores;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
@@ -29,6 +30,22 @@ namespace IdentityServer
 
         public void ConfigureServices(IServiceCollection services)
         {
+            
+            services.AddIdentityMongoDbProvider<AppUser>( options =>
+                {
+                    options.Password.RequireDigit = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+
+                    options.Password.RequiredLength = 3;
+                    options.Password.RequiredUniqueChars = 1;
+                }
+                ,mongo =>
+            {
+                mongo.ConnectionString = configuration.GetSection("Mongo").Get<MongoSettings>().ConnectionString;
+            });
+
             services.AddControllersWithViews();
 
             services.AddCors(setup =>
@@ -51,7 +68,6 @@ namespace IdentityServer
                     options.UserInteraction.ErrorUrl = "/error";
                     options.UserInteraction.LogoutUrl = "/logout";
 
-
                     if (!string.IsNullOrEmpty(configuration["Issuer"]))
                     {
                         options.IssuerUri = configuration["Issuer"];
@@ -61,7 +77,8 @@ namespace IdentityServer
                 .AddMongoClientStore()
                 .AddMongoPersistedGrantStore()
                 .AddMongoIdentityApiResources()
-                .AddTestUsers(Config.GetTestUsers());
+                .AddTestUsers(Config.GetTestUsers())
+                .AddProfileService<CustomProfileService>();
 
             if (environment.IsDevelopment())
             {
@@ -84,6 +101,8 @@ namespace IdentityServer
             {
                 AllowAll = true
             };
+
+
             services.AddSingleton<ICorsPolicyService>(cors);
         }
 

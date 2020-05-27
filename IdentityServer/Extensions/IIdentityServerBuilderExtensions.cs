@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using IdentityServer.Configurations;
 using IdentityServer.Repositories;
+using IdentityServer.Settings;
 using IdentityServer.Store;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
@@ -18,7 +18,7 @@ namespace IdentityServer.Extensions
     {
         public static IIdentityServerBuilder AddMongoRepositories(this IIdentityServerBuilder builder, IConfiguration configuration)
         {
-            var mongoConfiguration = configuration.GetSection("Mongo").Get<MongoConfiguration>();
+            var mongoConfiguration = configuration.GetSection("Mongo").Get<MongoSettings>();
             var mongoClient = new MongoClient(mongoConfiguration.ConnectionString);
             var mongoDatabase = mongoClient.GetDatabase(mongoConfiguration.DatabaseName);
             builder.Services.AddSingleton(mongoDatabase);

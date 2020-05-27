@@ -58,7 +58,7 @@ namespace IdentityServer
                     RedirectUris = { "https://localhost:5001/callback" },
 
                     // where to redirect to after logout
-                    PostLogoutRedirectUris = { "https://localhost:5001/" },
+                    PostLogoutRedirectUris = { "https://localhost:5001/logout" },
 
                     AllowAccessTokensViaBrowser = true,
 

@@ -6,7 +6,8 @@ import { AuthForm, AuthType } from "./components/AuthForm";
 import { GamePage } from "./components/Game";
 import { LeaderBoard } from "./components/Leaderboard";
 import { CallbackPage } from "./components/CallbackPage";
-
+import { Registration } from "./components/Registration";
+import { LogoutPage } from "./components/LogoutPage";
 
 export const registrationPage = '/registration';
 export const loginPage = '/login';
@@ -14,7 +15,7 @@ const homePage = '/home';
 const gamePage = '/game';
 const leaderBoardPage = '/leaderboard';
 const callbackPage = '/callback';
-
+const logoutPage = '/logout';
 
 export const Navigation = () => (
     <nav>
@@ -42,7 +43,9 @@ export const Main = () => (
             <Route exact path={homePage} component={LoggedOnPage}/>
             <Route exact path={gamePage} component={GamePage}/>
             <Route exact path={leaderBoardPage} component={LeaderBoard}/>
-            <Route exact path={callbackPage} component={CallbackPage}/>
+            <Route exact path={callbackPage} component={CallbackPage} />
+            <Route exact path={"/reg"} component={Registration} />
+            <Route exact path={logoutPage} component={LogoutPage} />
         </Switch>
     </main>
 );

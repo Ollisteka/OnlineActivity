@@ -9,7 +9,7 @@ const config = {
     authority: 'https://localhost:7001',
     client_id: 'spa',
     redirect_uri: 'https://localhost:5001/callback',
-    post_logout_redirect_uri: 'https://localhost:5001/',
+    post_logout_redirect_uri: 'https://localhost:5001/logout',
     response_type: 'code',
     scope: 'openid profile email api offline_access',
 };
@@ -25,6 +25,10 @@ const logIn = () => {
     })
 };
 
+async function logout() {
+    await manager.signoutRedirect()
+}
+
 export const Registration = () => {
     const inputId = 'nickname';
     return (<div className={'centered'}>
@@ -32,6 +36,8 @@ export const Registration = () => {
             Регистрация
         </header>
         <Button onClick={logIn}>OIDC login</Button>
+
+        <Button onClick={logout}>OIDC logout</Button>
 
         <form action={''} method={'XXX'}>
             <Gapped gap={20} vertical>
