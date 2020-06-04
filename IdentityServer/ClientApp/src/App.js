@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
+import { Switch } from "react-router-dom";
 import { Route } from 'react-router';
-import { Layout } from './components/Layout';
 
 import { Home } from './components/Home';
 import { ErrorPage } from  './components/ErrorPage';
@@ -14,11 +14,11 @@ export default class App extends Component {
 
     render () {
         return (
-            <Layout>
+            <Switch>
                 <Route exact path='/' component={Home} />
                 <Route path='/error' component={ErrorPage} />
                 <Route path='/logout' component={LogoutPage} />
-            </Layout>
+            </Switch>
         );
     }
 }
