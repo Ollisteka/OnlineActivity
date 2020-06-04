@@ -13,6 +13,7 @@ namespace OnlineActivity.Extensions
         public static void AddRepositories(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddSingleton<IUserRepository, MongoUserRepository>();
+            serviceCollection.AddSingleton<IGameRepository, MongoGameRepository>();
         }
 
         public static void AddSettings(this IServiceCollection serviceCollection, IConfiguration configuration)

@@ -1,12 +1,12 @@
 import React, {useEffect} from 'react';
 import {UserManager} from "oidc-client";
-import {userManager} from "./Registration";
+import {manager} from "./UserManager";
 import Cookies from 'js-cookie'
 
 export const completeLogin = async () => {
     await new UserManager({ response_mode: "query" }).signinRedirectCallback();
-    const user = await userManager.getUser();
-    const response = await fetch(`api/v1/users/login/${user.profile.name}`, {
+    const user = await manager.getUser();
+    const response = await fetch("api/v1/users", {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -18,13 +18,13 @@ export const completeLogin = async () => {
         })
     });
     const data = await response.json();
-    Cookies.Set("UserId", data.id);
+    Cookies.set("UserId", data.id);
     window.location = "/";
 };
 
 export const CallbackPage = () => {
-    useEffect(() => {
-        completeLogin();
+    useEffect(async () => {
+        await completeLogin();
     }, []);
     
     return null;
