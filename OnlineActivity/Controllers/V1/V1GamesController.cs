@@ -29,7 +29,9 @@ namespace OnlineActivity.Controllers.V1
             var gameEntity = mapper.Map<GameEntity>(gameToCreateDto);
             gameEntity = await gameRepository.InsertAsync(gameEntity);
             var gameToSendDto = mapper.Map<GameToSendDto>(gameEntity);
-            return CreatedAtRoute("GetGameById", new CreatedRouteValue(gameToSendDto.Id), gameToSendDto);
+            
+            return CreatedAtRoute("GetGameById", 
+                new CreatedGameRouteValue(gameToSendDto.Id), gameToSendDto);
         }
 
         [HttpGet("{gameId}", Name = "GetGameById")]

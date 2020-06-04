@@ -26,7 +26,7 @@ namespace OnlineActivity.Controllers.V1
             var userEntity = mapper.Map<UserEntity>(userToCreateDto);
             userEntity = await userRepository.InsertAsync(userEntity);
             var userToSendDto = mapper.Map<UserToSendDto>(userEntity);
-            return CreatedAtRoute("GetUserById", new CreatedRouteValue(userToSendDto.Id), userToSendDto);
+            return CreatedAtRoute("GetUserById", new CreatedUserRouteValue(userToSendDto.Id), userToSendDto);
         }
 
         [HttpPut]

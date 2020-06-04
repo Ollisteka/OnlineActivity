@@ -65,6 +65,7 @@ namespace OnlineActivity
                 endpoints.MapControllers();
                 endpoints.MapHub<ChatHub>("/chat");
                 endpoints.MapHub<CanvasHub>("/canvas");
+                endpoints.MapHub<GameCreationHub>("/waitingroom");
             });
 
             app.UseSpa(spa =>

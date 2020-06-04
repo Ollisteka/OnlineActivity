@@ -20,6 +20,18 @@ namespace OnlineActivity.Hubs
             this.userRepository = userRepository;
         }
 
+        [HubMethodName("AddToGroup")]
+        public async Task AddToGroupAsync(ConnectToGameDto connectToGameDto)
+        {
+            await Groups.AddToGroupAsync(Context.ConnectionId, connectToGameDto.GameId.ToString());
+        }
+        
+        [HubMethodName("RemoveFromGroup")]
+        public async Task RemoveFromGroupAsync(ConnectToGameDto connectToGameDto)
+        {
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, connectToGameDto.GameId.ToString());
+        }
+        
         [HubMethodName("ConnectToGame")]
         public async Task ConnectToGameAsync(ConnectToGameDto connectToGameDto)
         {
@@ -35,7 +47,6 @@ namespace OnlineActivity.Hubs
             await gameRepository.AddUserToGameAsync(connectToGameDto.GameId, connectToGameDto.UserId);
 
             var groupName = connectToGameDto.GameId.ToString();
-            await Groups.AddToGroupAsync(Context.ConnectionId, connectToGameDto.GameId.ToString());
 
             var result = new UserConnectedDto
             {
@@ -43,7 +54,7 @@ namespace OnlineActivity.Hubs
                 UserId = user.Id,
                 UserLogin = user.Login
             };
-
+            
             await Clients.Group(groupName).SendAsync("ConnectToGame", result);
         }
 

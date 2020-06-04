@@ -4,15 +4,15 @@ using Newtonsoft.Json;
 namespace OnlineActivity.Result
 {
     [JsonObject]
-    public sealed class CreatedRouteValue
+    public sealed class CreatedUserRouteValue
     {
         [JsonConstructor]
-        public CreatedRouteValue(Guid userId)
+        public CreatedUserRouteValue(Guid userId)
         {
             UserId = userId;
         }
 
-        [JsonProperty("approveId")]
+        [JsonProperty("userId")]
         public Guid UserId { get; }
     }
 }

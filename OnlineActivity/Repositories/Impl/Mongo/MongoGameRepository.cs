@@ -18,8 +18,9 @@ namespace OnlineActivity.Repositories
         {
             var update = Builders<GameEntity>.Update
                 .Push(_ => _.PlayersIds, userId);
-
-            return Collection.FindOneAndUpdateAsync(_ => _.Id == gameId, update);
+            var options = new FindOneAndUpdateOptions<GameEntity> {ReturnDocument = ReturnDocument.After};
+            
+            return Collection.FindOneAndUpdateAsync<GameEntity, GameEntity>(_ => _.Id == gameId, update, options);
         }
     }
 }
