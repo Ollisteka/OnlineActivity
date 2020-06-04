@@ -6,6 +6,7 @@ import Input from "@skbkontur/react-ui/Input";
 
 import './MainPage.module.css';
 import {logIn, manager} from "./UserManager";
+import {WaitingRoom} from "./WaitingRoom";
 
 const newGameId = '1234-abcd';
 
@@ -14,7 +15,9 @@ const JoinGame = () => {
     return (
         <form className={'vertical'} action={''} method={'XXX'}>
             <Input placeholder={gameIdPlaceholder} required/>
-            <Button type={'submit'}>Присоединиться</Button>
+            <Button onClick={() => {
+                window.location = `/waitroom/${gameIdPlaceholder}`
+            }}>Присоединиться</Button>
         </form>
     );
 };
@@ -22,26 +25,27 @@ const JoinGame = () => {
 const InitGame = () => (
     <Gapped gap={20} vertical>
         <Button
-            onClick={() => alert(`Идентификатор игры: ${newGameId}.\nОтправьте его друзьям и они смогут присоединиться к вам!`)}>Начать
-            новую игру</Button>
+            onClick={() => {
+                window.location = "/waitroom/:id"
+            }}>Начать новую игру</Button>
         <JoinGame/>
     </Gapped>
 );
 
 export async function isLogged() {
     const user = await manager.getUser();
-    
+
     return user !== null;
 }
 
 export const MainPage = () => {
     const [loggedOn, setLoggedOn] = useState(false);
-    
+
     useEffect(async () => {
 
         setLoggedOn(await isLogged())
     }, []);
-    
+
     return (
         <div className={'main-page'}>
             <header className={'main-page_header'}>
