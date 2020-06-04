@@ -1,11 +1,10 @@
-﻿using System;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace OnlineActivity.Models.User
 {
     [JsonObject]
-    public class UserToCreateDto
+    public sealed class UserToPutDto
     {
         [JsonPropertyName("login")]
         public string Login { get; set; }

@@ -29,6 +29,16 @@ namespace OnlineActivity.Controllers.V1
             return CreatedAtRoute("GetUserById", new CreatedRouteValue(userToSendDto.Id), userToSendDto);
         }
 
+        [HttpPut]
+        public async Task<IActionResult> CreateOrUpdateUserAsync([FromBody] UserToPutDto userToPutDto)
+        {
+            var userEntity = mapper.Map<UserEntity>(userToPutDto);
+            userEntity = await userRepository.InsertOrUpdateByLoginAsync(userEntity);
+            var userToSendDto = mapper.Map<UserToSendDto>(userEntity);
+
+            return Ok(userToSendDto);
+        }
+
         [HttpGet("{userId}", Name = "GetUserById")]
         public async Task<IActionResult> GetUserByIdAsync([FromRoute] Guid userId)
         {

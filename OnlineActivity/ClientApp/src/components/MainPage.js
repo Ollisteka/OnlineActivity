@@ -56,3 +56,6 @@ export const MainPage = () => {
 MainPage.propTypes = {
     loggedOn: PropTypes.bool
 };
+
+export class LoggedOnPage {
+}

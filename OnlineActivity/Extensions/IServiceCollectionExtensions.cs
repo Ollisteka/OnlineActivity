@@ -1,23 +1,29 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using JetBrains.Annotations;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OnlineActivity.Repositories;
-using OnlineActivity.Repositories.Impl;
 using MongoDB.Driver;
 using OnlineActivity.Settings;
 
 namespace OnlineActivity.Extensions
 {
-    internal static class IServiceCollectionExtensions
+    [UsedImplicitly]
+    internal static class ServiceCollectionExtensions
     {
         public static void AddRepositories(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddSingleton<IUserRepository, InMemoryUserRepository>();
+            serviceCollection.AddSingleton<IUserRepository, MongoUserRepository>();
+        }
+
+        public static void AddSettings(this IServiceCollection serviceCollection, IConfiguration configuration)
+        {
+            serviceCollection.Configure<MongoSettings>(configuration.GetSection("Mongo"));
         }
 
         public static void AddClients(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
-            var driveSettings = configuration.GetSection("Drive").Get<DriveSettings>();
-            var client = new MongoClient(driveSettings.ConnectionString);
+            var mongoSettings = configuration.GetSection("Mongo").Get<MongoSettings>();
+            var client = new MongoClient(mongoSettings.ConnectionString);
             serviceCollection.AddSingleton<IMongoClient>(client);
         }
     }

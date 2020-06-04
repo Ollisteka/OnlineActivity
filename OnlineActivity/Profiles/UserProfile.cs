@@ -11,6 +11,7 @@ namespace OnlineActivity.Profiles
         {
             CreateMap<UserToCreateDto, UserEntity>();
             CreateMap<UserEntity, UserToSendDto>();
+            CreateMap<UserToPutDto, UserEntity>();
         }
     }
 }

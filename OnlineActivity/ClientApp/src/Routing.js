@@ -1,16 +1,13 @@
 ﻿import {Link, Route, Switch} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 
-import {LoggedOnPage, MainPage} from "./components/MainPage";
+import {MainPage} from "./components/MainPage";
 import {GamePage} from "./components/Game";
 import {LeaderBoard} from "./components/Leaderboard";
 import {CallbackPage} from "./components/CallbackPage";
-import {logout, manager} from "./components/UserManager";
+import {logout} from "./components/UserManager";
 import Button from "@skbkontur/react-ui/Button";
 
-export const registrationPage = '/registration';
-export const loginPage = '/login';
-const homePage = '/home';
 const gamePage = '/game';
 const leaderBoardPage = '/leaderboard';
 const callbackPage = '/callback';

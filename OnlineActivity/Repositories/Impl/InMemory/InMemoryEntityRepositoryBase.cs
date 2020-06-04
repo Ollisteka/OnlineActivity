@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using OnlineActivity.Models;
 
-namespace OnlineActivity.Repositories.Impl
+namespace OnlineActivity.Repositories
 {
     internal class InMemoryEntityRepositoryBase<TEntity> : IEntityRepository<TEntity>
         where TEntity: Entity

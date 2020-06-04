@@ -1,7 +1,8 @@
 ﻿namespace OnlineActivity.Models
 {
-    internal enum GameStatus
+    public enum GameStatus
     {
+        WaitingForTheStart,
         Active,
         Finished
     }

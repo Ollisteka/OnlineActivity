@@ -29,6 +29,7 @@ namespace OnlineActivity
             services.AddSignalR();
             services.AddAutoMapper(typeof(Startup));
 
+            services.AddSettings(Configuration);
             services.AddClients(Configuration);
             services.AddRepositories();
             

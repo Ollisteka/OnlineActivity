@@ -1,12 +1,20 @@
-﻿namespace OnlineActivity.Models.User
+﻿using System.Text.Json.Serialization;
+
+namespace OnlineActivity.Models.User
 {
     public sealed class UserEntity: Entity
     {
-        public string Name { get; set; }
+        public string Login { get; set; }
 
-        public UserEntity(string name)
+        public string Email { get; set; }
+
+        public string IdentityId { get; set; }
+
+        public UserEntity(string login, string email, string identityId)
         {
-            Name = name;
+            Login = login;
+            Email = email;
+            IdentityId = identityId;
         }
     }
 }
