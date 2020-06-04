@@ -1,4 +1,4 @@
-﻿﻿import React from "react";
+﻿import React from "react";
 import Input from "@skbkontur/react-ui/Input";
 import Button from "@skbkontur/react-ui/Button";
 import * as styles from './AuthForm.module.css';
@@ -12,8 +12,8 @@ export const AuthForm = ({authType}) => {
     const loginId = 'nickname';
     const passwordId = 'password';
     const [header, buttonCaption, autoComplete] = authType === AuthType.Registration
-            ? ['Регистрация', 'Зарегистрироваться', 'new-password']
-            : ['Вход', 'Войти', 'current-password' ];
+        ? ['Регистрация', 'Зарегистрироваться', 'new-password']
+        : ['Вход', 'Войти', 'current-password'];
 
     return (<div className={'centered'}>
         <header className={'page-header'}>

@@ -1,6 +1,24 @@
-﻿.navigation {
+﻿/*.main-page {*/
+/*    text-align: center;*/
+/*    min-height: 90vh;*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*}*/
+
+/*.main-page_header {*/
+/*    text-align: center;*/
+/*    font-size: 80px;*/
+/*}*/
+
+/*.main-page_button {*/
+/*    font-size: 60px;*/
+/*}*/
+
+.navigation {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     margin: 0;
     padding: 0;
 }

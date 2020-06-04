@@ -1,11 +1,11 @@
-﻿import {Link} from "react-router-dom";
-import React from "react";
+﻿import React, {useState, useEffect} from "react";
 import PropTypes from 'prop-types';
 import Gapped from "@skbkontur/react-ui/Gapped";
 import Button from "@skbkontur/react-ui/Button";
 import Input from "@skbkontur/react-ui/Input";
-import {registrationPage, loginPage} from "../Routing";
-import * as styles from './MainPage.module.css';
+
+import './MainPage.module.css';
+import {logIn, manager} from "./UserManager";
 
 const newGameId = '1234-abcd';
 
@@ -28,25 +28,27 @@ const InitGame = () => (
     </Gapped>
 );
 
-export const MainPage = ({loggedOn = false}) => {
+export async function isLogged() {
+    const user = await manager.getUser();
+    
+    return user !== null;
+}
+
+export const MainPage = () => {
+    const [loggedOn, setLoggedOn] = useState(false);
+    
+    useEffect(async () => {
+
+        setLoggedOn(await isLogged())
+    }, []);
+    
     return (
-        <div className={'centered'}>
-            <header className={'page-header'}>
+        <div className={'main-page'}>
+            <header className={'main-page_header'}>
                 Online Activity
             </header>
-
-            {loggedOn
-                ? <InitGame/>
-                : (
-                    <nav>
-                        <ul className={styles.navigation}>
-                            <li className={styles.navItem}><Link to={registrationPage}>Регистрация</Link></li>
-                            <li className={styles.navItem}><Link to={loginPage}>Вход</Link></li>
-                        </ul>
-                    </nav>
-                )
-            }
-
+            {loggedOn ? <InitGame/> : <Button className={'main-page_button'} use={'primary'}
+                                              onClick={logIn}>Войти</Button>}
         </div>
     );
 };
@@ -54,5 +56,3 @@ export const MainPage = ({loggedOn = false}) => {
 MainPage.propTypes = {
     loggedOn: PropTypes.bool
 };
-
-export const LoggedOnPage = () => <MainPage loggedOn/>;

@@ -1,0 +1,43 @@
+.form {
+    text-align: center;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 50px 0 50px;
+}
+
+.form_header {
+    text-align: center;
+    margin: 0 0 50px 0;
+    font-size: 30px;
+}
+
+.form_input{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 330px;
+    
+}
+
+.form_input_login,
+.form_input_password,
+.form_input_email,
+.form_input_check_password {
+    display: flex;
+    justify-content: stretch;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+label {
+    margin: 0 10px 0 0;
+}
+
+.form_input Button {
+    width: 330px;
+    font-size: 25px;
+}
