@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace OnlineActivity.Models.Game
+namespace OnlineActivity.Models
 {
     public sealed class GameEntity: Entity
     {
@@ -13,8 +13,12 @@ namespace OnlineActivity.Models.Game
 
         public DateTime CreationTime { get; set; }
 
-        public DateTime StartTime { get; set; }
+        public DateTime? StartTime { get; set; }
 
-        public DateTime FinishTime { get; set; }
+        public DateTime? FinishTime { get; set; }
+
+        public Guid DrawerPlayerId { get; set; }
+
+        public List<Line> CanvasLines { get; set; } = new List<Line>();
     }
 }

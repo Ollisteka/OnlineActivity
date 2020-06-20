@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
-using OnlineActivity.Models.User;
 
-namespace OnlineActivity.Models.Game
+namespace OnlineActivity.Models
 {
     [JsonObject]
     public class GameToSendDto
@@ -26,5 +25,8 @@ namespace OnlineActivity.Models.Game
 
         [JsonPropertyName("gameFinishTime")]
         public DateTime? GameFinishTime { get; set; }
+
+        [JsonPropertyName("canvasLines")]
+        public List<Line> CanvasLines { get; set; } = new List<Line>();
     }
 }

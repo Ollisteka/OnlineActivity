@@ -1,11 +1,32 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import * as signalR from "@microsoft/signalr";
+import {getGameId, getUserId} from './WaitingRoom';
+
+async function getCurrentCanvas() {
+    const gameId = getGameId();
+    const response = await fetch(`api/v1/games/${gameId}`);
+    const data = await response.json();
+    const lines = [];
+    for (const line of data.canvasLines) {
+        lines.push(
+            {
+                "start": {X: parseInt(line.start.x), Y: parseInt(line.start.y)},
+                "end": {X: parseInt(line.end.x), Y: parseInt(line.end.y)}
+            }
+        );
+    }
+
+    return lines;
+}
 
 export const Canvas = ({width, height}) => {
     const canvasRef = useRef(null);
     const [isPainting, setIsPainting] = useState(false);
     const [mousePosition, setMousePosition] = useState(undefined);
     const [canvasConnection, setCanvasConnection] = useState(undefined);
+
+    const userId = getUserId();
+    const gameId = getGameId();
 
     const startPaint = useCallback((event) => {
         const coordinates = getCoordinates(event);
@@ -15,21 +36,34 @@ export const Canvas = ({width, height}) => {
         }
     }, []);
 
-    useEffect(() => {
+    useEffect(async () => {
         const connection = new signalR.HubConnectionBuilder()
             .withUrl("/canvas")
             .build();
 
-        connection.on("DrawLine", (line) => {
+        connection.on("DrawLine", (drawLineDto) => {
+            const line = drawLineDto.line;
             drawLine(
                 {X: parseInt(line.start.x), Y: parseInt(line.start.y)},
                 {X: parseInt(line.end.x), Y: parseInt(line.end.y)})
         });
 
-        connection.start().then(_ => setCanvasConnection(connection));
+        await connection.start();
+        await connection.invoke("AddToGroup", {
+            userId,
+            gameId
+        });
+        setCanvasConnection(connection);
+
+        const currentCanvas = await getCurrentCanvas();
+        for (const line of currentCanvas)
+            drawLine(line.start, line.end);
 
         return () => {
-            connection.stop().then(_ => setCanvasConnection(undefined))
+            canvasConnection.invoke("RemoveFromGroup", {
+                userId,
+                gameId
+            }).then(_ => canvasConnection.stop().then(_ => setCanvasConnection(undefined)))
         }
     }, []);
 
@@ -51,7 +85,14 @@ export const Canvas = ({width, height}) => {
                 const newMousePosition = getCoordinates(event);
                 if (mousePosition && newMousePosition) {
                     if (canvasConnection)
-                        canvasConnection.invoke("DrawLine", {Start: mousePosition, End: newMousePosition});
+                        canvasConnection.invoke("DrawLine", {
+                            line: {
+                                start: mousePosition,
+                                end: newMousePosition
+                            },
+                            gameId,
+                            userId
+                        });
                     drawLine(mousePosition, newMousePosition);
                     setMousePosition(newMousePosition);
                 }

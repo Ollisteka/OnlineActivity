@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using OnlineActivity.Models.User;
+using OnlineActivity.Models;
 using OnlineActivity.Settings;
 
 namespace OnlineActivity.Repositories

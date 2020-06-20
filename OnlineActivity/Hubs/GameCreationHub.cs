@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.SignalR;
 using OnlineActivity.Models;
-using OnlineActivity.Models.GameCreation;
 using OnlineActivity.Repositories;
 
 namespace OnlineActivity.Hubs
@@ -21,15 +20,15 @@ namespace OnlineActivity.Hubs
         }
 
         [HubMethodName("AddToGroup")]
-        public async Task AddToGroupAsync(ConnectToGameDto connectToGameDto)
+        public async Task AddToGroupAsync(HubGroupDto hubGroupDto)
         {
-            await Groups.AddToGroupAsync(Context.ConnectionId, connectToGameDto.GameId.ToString());
+            await Groups.AddToGroupAsync(Context.ConnectionId, hubGroupDto.GameId.ToString());
         }
         
         [HubMethodName("RemoveFromGroup")]
-        public async Task RemoveFromGroupAsync(ConnectToGameDto connectToGameDto)
+        public async Task RemoveFromGroupAsync(HubGroupDto hubGroupDto)
         {
-            await Groups.RemoveFromGroupAsync(Context.ConnectionId, connectToGameDto.GameId.ToString());
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, hubGroupDto.GameId.ToString());
         }
         
         [HubMethodName("ConnectToGame")]
@@ -43,6 +42,9 @@ namespace OnlineActivity.Hubs
                 await Clients.Caller.SendAsync("Error", new ErrorMessage { Id = "game-connection-error", Message = "You can not connect to this game" });
                 return;
             }
+
+            if (game.PlayersIds.Contains(user.Id))
+                return;
 
             await gameRepository.AddUserToGameAsync(connectToGameDto.GameId, connectToGameDto.UserId);
 

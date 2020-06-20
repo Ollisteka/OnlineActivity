@@ -1,7 +1,7 @@
 using System;
 using Newtonsoft.Json;
 
-namespace OnlineActivity.Models.Game
+namespace OnlineActivity.Models
 {
     public sealed class CreatedGameRouteValue
     {

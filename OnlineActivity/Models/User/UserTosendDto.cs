@@ -2,7 +2,7 @@
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
-namespace OnlineActivity.Models.User
+namespace OnlineActivity.Models
 {
     [JsonObject]
     public class UserToSendDto

@@ -35,7 +35,7 @@ namespace OnlineActivity.Repositories
             if (entity.Id == Guid.Empty)
                 throw new ArgumentException("Id of entity should not be Guid.Empty", nameof(entity.Id));
 
-            await Collection.UpdateOneAsync(_ => _.Id == entity.Id, entity.ToBsonDocument());
+            await Collection.ReplaceOneAsync(_ => _.Id == entity.Id, entity);
 
             return entity;
         }

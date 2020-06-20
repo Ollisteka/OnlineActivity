@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using OnlineActivity.Models.User;
+using OnlineActivity.Models;
 
 namespace OnlineActivity.Repositories
 {

@@ -2,8 +2,7 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using OnlineActivity.Models.Game;
-using OnlineActivity.Models.User;
+using OnlineActivity.Models;
 using OnlineActivity.Repositories;
 using OnlineActivity.Result;
 

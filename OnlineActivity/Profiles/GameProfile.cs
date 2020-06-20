@@ -2,7 +2,6 @@
 using AutoMapper;
 using JetBrains.Annotations;
 using OnlineActivity.Models;
-using OnlineActivity.Models.Game;
 
 namespace OnlineActivity.Profiles
 {

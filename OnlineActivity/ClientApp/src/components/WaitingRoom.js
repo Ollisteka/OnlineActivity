@@ -1,12 +1,15 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import * as signalR from "@microsoft/signalr";
-import {UserManager} from "oidc-client";
 import Cookies from "js-cookie";
+import Button from "@skbkontur/react-ui/Button";
 
-
-function getGameId() {
+export function getGameId() {
     const currentHref = window.location.href.split('/');
     return currentHref[currentHref.length - 1];
+}
+
+export function getUserId(){
+    return Cookies.get("UserId");
 }
 
 async function getCurrentPlayers() {
@@ -23,57 +26,67 @@ async function getCurrentPlayers() {
         );
     }
 
-    return currentPlayers;
+    return {
+        "players": currentPlayers,
+        "creatorId": data.creatorId
+    };
 }
 
-async function getWaitingRoom(players, setPlayers, roomConnection, setRoomConnection) {
-
-
-}
-
-async function updatePlayers(setPlayers) {
-    const currentPlayers = await getCurrentPlayers();
-    setPlayers(currentPlayers);
+async function startGame(connection) {
+    const userId = Cookies.get("UserId");
+    const gameId = getGameId();
+    await connection.invoke("StartGame", {
+        userId,
+        gameId
+    });
 }
 
 export const WaitingRoom = () => {
     const [players, setPlayers] = useState([]);
+    const [creatorId, setCreatorId] = useState(undefined);
     const [roomConnection, setRoomConnection] = useState(undefined);
 
     useEffect(
-        async function createRoom() {
+        async () => {
             const currentPlayers = await getCurrentPlayers();
-            setPlayers(currentPlayers);
+            setPlayers(currentPlayers.players);
+            setCreatorId(currentPlayers.creatorId);
+
             const connection = new signalR.HubConnectionBuilder()
                 .withUrl("/waitingroom")
                 .build();
 
             connection.on("ConnectToGame", (userConnectedDto) => {
-                const newPlayer = {
-                    "id": userConnectedDto.userId,
-                    "login": userConnectedDto.userLogin
-                };
-                for (const player of players) {
-                    if (newPlayer.id === player.id) {
-                        return;
+                setPlayers(players => {
+                    const newPlayer = {
+                        "id": userConnectedDto.userId,
+                        "login": userConnectedDto.userLogin
+                    };
+                    for (const player of players) {
+                        if (newPlayer.id === player.id) {
+                            return players;
+                        }
                     }
-                }
-                const newPlayers = players.concat(newPlayer);
-                setPlayers(newPlayers);
+                    return players.concat(newPlayer);
+                });
             });
 
+            connection.on("StartGame", (gameStartedDto) => {
+                const gameId = getGameId();
+                if (gameId === gameStartedDto.gameId) {
+                    window.location = `/game/${gameId}`;
+                }
+            });
 
             await connection.start();
-            setRoomConnection(connection);
-
             const userId = Cookies.get("UserId");
             const gameId = getGameId();
             await connection.invoke("AddToGroup", {
                 userId,
                 gameId
             });
-            
-            createRoom();
+
+            setRoomConnection(connection);
             return () => {
                 roomConnection.invoke("RemoveFromGroup", {
                     userId,
@@ -83,12 +96,17 @@ export const WaitingRoom = () => {
         }, []);
 
     return (
-        <ul>
-            {players.map(item => (
-                <li key={item.id}>
-                    <label>{item.login}</label>
-                </li>
-            ))}
-        </ul>
+        <div>
+            {creatorId === Cookies.get("UserId") ?
+                <Button onClick={async () => await startGame(roomConnection)}>Начать игру</Button> :
+                undefined}
+            <ul>
+                {players.map(item => (
+                    <li key={item.id}>
+                        <label>{item.login}</label>
+                    </li>
+                ))}
+            </ul>
+        </div>
     )
 };

@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace OnlineActivity.Models.GameCreation
+namespace OnlineActivity.Models
 {
     [JsonObject]
     public sealed class ConnectToGameDto
@@ -9,7 +9,7 @@ namespace OnlineActivity.Models.GameCreation
         [JsonProperty(PropertyName = "userId")]
         public Guid UserId { get; set; }
 
-        [JsonProperty(PropertyName = "gameId")]
+        [JsonProperty(PropertyName = "gameId")] 
         public Guid GameId { get; set; }
     }
 }

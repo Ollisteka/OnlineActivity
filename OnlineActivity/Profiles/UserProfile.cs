@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using JetBrains.Annotations;
-using OnlineActivity.Models.User;
+using OnlineActivity.Models;
 
 namespace OnlineActivity.Profiles
 {

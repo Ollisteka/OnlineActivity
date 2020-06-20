@@ -6,7 +6,6 @@ import Input from "@skbkontur/react-ui/Input";
 
 import './MainPage.module.css';
 import {logIn, manager} from "./UserManager";
-import {WaitingRoom} from "./WaitingRoom";
 import Cookies from "js-cookie";
 import * as signalR from "@microsoft/signalr";
 

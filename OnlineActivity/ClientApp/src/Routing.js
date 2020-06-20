@@ -9,7 +9,7 @@ import {logout} from "./components/UserManager";
 import {WaitingRoom} from "./components/WaitingRoom";
 import Button from "@skbkontur/react-ui/Button";
 
-const gamePage = '/game';
+const gamePage = '/game/:id';
 const leaderBoardPage = '/leaderboard';
 const callbackPage = '/callback';
 const waitRoomPage = '/waitroom/:id';
@@ -52,10 +52,9 @@ export const Main = () => {
             {loggedOn ?
                 <Switch>
                     <Route exact path='/' component={MainPage}/>
+                    <Route path={waitRoomPage} component={WaitingRoom}/>
                     <Route exact path={gamePage} component={GamePage}/>
                     <Route exact path={leaderBoardPage} component={LeaderBoard}/>
-                    <Route path={waitRoomPage} component={WaitingRoom}/>
-
                 </Switch>
                 :
                 <Switch>

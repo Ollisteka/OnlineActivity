@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace OnlineActivity.Models.GameCreation
+namespace OnlineActivity.Models
 {
     [JsonObject]
     public class StartGameDto
