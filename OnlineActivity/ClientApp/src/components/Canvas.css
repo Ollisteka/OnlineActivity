@@ -1,0 +1,44 @@
+.palette {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.red,
+.black,
+.green,
+.blue,
+.yellow,
+.white {
+    width: 30px;
+    height: 30px;
+    outline: grey;
+    border: none;
+}
+
+.red {
+    background-color: red;
+}
+
+.black {
+    background-color: black;
+}
+
+.green {
+    background-color: green;
+}
+
+.blue {
+    background-color: blue;
+}
+
+.yellow {
+    background-color: yellow;
+}
+
+.white {
+    background-color: white;
+    border: 1px solid black;
+}

@@ -1,0 +1,11 @@
+.input-game-id {
+    display: flex;
+    flex-direction: column;
+}
+
+button {
+    width: 250px;
+    height: 35px;
+    border: grey solid 1px;
+    font-size: 20px;
+}

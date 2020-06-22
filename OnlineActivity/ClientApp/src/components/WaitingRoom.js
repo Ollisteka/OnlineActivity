@@ -3,6 +3,8 @@ import * as signalR from "@microsoft/signalr";
 import Cookies from "js-cookie";
 import Button from "@skbkontur/react-ui/Button";
 
+import "./WaitingRoom.css";
+
 export function getGameId() {
     const currentHref = window.location.href.split('/');
     return currentHref[currentHref.length - 1];
@@ -100,9 +102,11 @@ export const WaitingRoom = () => {
             {creatorId === Cookies.get("UserId") ?
                 <Button onClick={async () => await startGame(roomConnection)}>Начать игру</Button> :
                 undefined}
-            <ul>
+                <p>Код игры, скопируй его и поделись с друзьями</p>
+                <p>Список игроков:</p>
+            <ul className={'players-list'}>
                 {players.map(item => (
-                    <li key={item.id}>
+                    <li className={'players-list_item'} key={item.id}>
                         <label>{item.login}</label>
                     </li>
                 ))}

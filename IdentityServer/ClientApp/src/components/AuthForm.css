@@ -15,29 +15,32 @@
 }
 
 .form_input{
+    list-style-type: none;
+    padding: 0;
+    border-radius: 3px;
+}
+
+.form_input_row {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    width: 330px;
-    
+    justify-content: flex-start;
+    padding: .5em;
+}
+.form_input_row > label {
+    padding: .5em 0 .5em 0;
+    text-align: left;
+    flex: 1;
+
+}
+.form_input_row > input {
+    flex: 2;
+}
+.form_input_row > input {
+    padding: .5em 0 .5em 0;
 }
 
-.form_input_login,
-.form_input_password,
-.form_input_email,
-.form_input_check_password {
-    display: flex;
-    justify-content: stretch;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-label {
-    margin: 0 10px 0 0;
-}
-
-.form_input Button {
-    width: 330px;
-    font-size: 25px;
+.form_input .form_input_button_registration,
+.form_input .form_input_button_login {
+    width: 100%;
+    font-size: 20px;
+    border: grey solid 1px;
 }
