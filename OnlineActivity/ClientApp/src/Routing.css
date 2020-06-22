@@ -1,5 +1,5 @@
 nav {
-    margin: 25px 0 0 0;
+    margin: 25px 0 25px 0;
 }
 
 ul {
@@ -8,5 +8,12 @@ ul {
 
 .nav-link {
     text-decoration: none;
-    color: black;
+    color: black;  
+}
+
+.nav-button {
+    width: 250px;
+    height: 35px;
+    border: grey solid 1px;
+    font-size: 20px;
 }

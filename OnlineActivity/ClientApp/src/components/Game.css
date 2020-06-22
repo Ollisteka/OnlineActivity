@@ -1,9 +1,40 @@
-﻿.header {
-    font-size: 22px;
-    padding: 20px 0;
+﻿* {
+    font-family: 'Yandex Sans Display', 'sans-serif';
+}
+.game-page {
+    display: flex;
+    flex-direction: row;
 }
 
-.word {
-    text-transform: uppercase;
+.game-page_field {
+    display: flex;
+    flex-direction: column;
+}
+
+.game-page_field_header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.game-page_field_header_id,
+.game-page_field_header_timer {
+    font-size: 20px;
+    margin: 0 0 10px 0;
+}
+
+.game-page_field_paint_word {
+    margin: 0 auto;
+    font-size: 30px;
+}
+
+.game-page_field_paint {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+Canvas {
+    border: grey solid 3px;
 }
 

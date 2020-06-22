@@ -1,30 +1,40 @@
-﻿.disabled {
+﻿* {
+    font-family: 'Yandex Sans Display', 'sans-serif';
+}
+
+.chat {
     grid-template: "header" 1fr "posts" 11fr;
+    height: 80vh;
+    margin: 0 0 0 20px;
+    top: 40px;
 }
 
-.disabled .body {
-    max-height: 780px;
+.chat_header_nickname {
+    font-size: 20px;
+    margin: 0 0 63px 0;
 }
 
-.body {
+.chat_header_post-id {
     overflow-y: auto;
     max-height: 700px;
     min-width: 300px;
+    border: grey solid 3px;
 }
 
-.wordForm {
+.chat_word-form {
     padding-top: 16px;
     text-align: start;
     display: flex;
 }
 
-.input {
+.chat_word-form_input {
     flex-grow: 3;
+    height: 40px;
     margin-right: 5px;
     font-size: 16px;
     padding: 0 8px;
 }
 
-.send {
+.chat_word-form_button {
     flex-grow: 1;
 }

@@ -3,10 +3,9 @@ import PropTypes from "prop-types";
 import classnames from "classnames";
 import IconSend from "@skbkontur/react-icons/Send3"
 import {Post} from "./Post";
-import * as styles from './Chat.css';
 import * as signalR from "@microsoft/signalr";
 import {getGameId, getUserId} from './WaitingRoom';
-
+import './Chat.css';
 
 let maxId = 4;
 const createNewPost = (nickName, comment) => {
@@ -73,16 +72,16 @@ export const Chat = ({nickName, chatPosts, isGameLead = false}) => {
     };
 
     return (
-        <div className={classnames('chat', {[styles.disabled]: isGameLead})}>
-            <div className={'field-header'}>Ваш никнейм: {nickName}</div>
-            <div className={classnames('field', styles.body)}>
+        <div className={'chat'}>
+            <div className={'chat_header_nickname'}>Ваш никнейм: {nickName}</div>
+            <div className={'chat_header_post-id'}>
                 {posts.map(post => (<Post key={post.id} post={post} activeReactions={isGameLead}/>))}
             </div>
             {!isGameLead && (
-                <div className={styles.wordForm}>
-                    <input className={styles.input} placeholder={'Угадайте слово'} name={'guess-word'} ref={inputRef}
+                <div className={'chat_word-form'}>
+                    <input className={'chat_word-form_input'} placeholder={'Угадайте слово'} name={'guess-word'} ref={inputRef}
                            onChange={evt => updateCanSend(!!evt.target.value)} autoComplete={'off'}/>
-                    <button className={styles.send} type={'button'} onClick={onSubmit} disabled={!canSend}>
+                    <button className={'chat_word-form_button'} type={'button'} onClick={onSubmit} disabled={!canSend}>
                         <IconSend/>
                     </button>
                 </div>

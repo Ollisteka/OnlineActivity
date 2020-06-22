@@ -7,6 +7,8 @@ import "./JoiningToGame.css";
 
 export const JoinGame = () => {
     const [connection, setConnection] = useState(undefined);
+    const [canSend, updateCanSend] = useState(false);
+    
     useEffect(() => {
         const connection = new signalR.HubConnectionBuilder()
             .withUrl("/waitingroom")
@@ -23,16 +25,17 @@ export const JoinGame = () => {
     const gameIdPlaceholder = 'Идентификатор игры';
     return (
         <div className={'input-game-id'}>
-            <Input ref={input} placeholder={gameIdPlaceholder} required/>
-            <button onClick={async () => {
+            {<Input ref={input} placeholder={gameIdPlaceholder} required 
+                    onChange={evt => updateCanSend(!!evt.target.value)} autoComplete={'off'}/>}
+            <button className={'input-game-id_button'} onClick={async () => {
                 const gameId = input.current.input.value;
                 const userId = Cookies.get("UserId");
                 await connection.invoke("ConnectToGame", {
                     userId,
                     gameId
                 });
-                window.location = `/waitroom/${gameId}`
-            }}>Присоединиться</button>
+                window.location = `/waitroom/${gameId}`;
+            }} disabled={!canSend}>Присоединиться</button>
         </div>
     );
 };
