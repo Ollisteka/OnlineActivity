@@ -28,5 +28,12 @@ namespace OnlineActivity.Models
 
         [JsonPropertyName("canvasLines")]
         public List<Line> CanvasLines { get; set; } = new List<Line>();
+
+        [JsonPropertyName("drawerPlayerId")]
+        public Guid DrawerPlayerId { get; set; }
+
+        [JsonPropertyName("chatMessages")]
+        public List<ChatMessageToSendDto> ChatMessages { get; set; } = new List<ChatMessageToSendDto>();
+
     }
 }

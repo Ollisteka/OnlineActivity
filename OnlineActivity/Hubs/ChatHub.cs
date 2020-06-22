@@ -47,7 +47,7 @@ namespace OnlineActivity.Hubs
             chatMessageToSendDto.UserName = sender.Login;
 
             var groupName = chatMessageDto.GameId.ToString();
-            await Clients.GroupExcept(groupName, Context.ConnectionId).SendAsync("SendChatMessage", chatMessageToSendDto);
+            await Clients.Group(groupName).SendAsync("SendChatMessage", chatMessageToSendDto);
         }
 
         [HubMethodName("SendReactionAsync")]

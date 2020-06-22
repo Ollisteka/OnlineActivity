@@ -1,27 +1,12 @@
-﻿import React, {useRef, useState} from "react";
+﻿import React, {useRef, useState, useEffect} from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
 import IconSend from "@skbkontur/react-icons/Send3"
 import {Post} from "./Post";
 import * as styles from './Chat.css';
+import * as signalR from "@microsoft/signalr";
+import {getGameId, getUserId} from './WaitingRoom';
 
-const defaultPosts = [
-    {
-        id: 1,
-        author: 'Нюша',
-        comment: 'апельсин?'
-    },
-    {
-        id: 2,
-        author: 'Кар-Карыч',
-        comment: 'Гранат'
-    },
-    {
-        id: 3,
-        author: 'Лосяш',
-        comment: 'Солнце'
-    }
-];
 
 let maxId = 4;
 const createNewPost = (nickName, comment) => {
@@ -32,19 +17,59 @@ const createNewPost = (nickName, comment) => {
     };
 };
 
-export const Chat = ({nickName, isGameLead = false}) => {
-    const [posts, updatePosts] = useState(defaultPosts);
-    const [canSend, updateCanSend] = useState(false);
-    const inputRef = useRef();
 
-    const onSubmit = () => {
-        const comment = inputRef.current.value;
-        if (!comment) {
+export const Chat = ({nickName, chatPosts, isGameLead = false}) => {
+    const [posts, updatePosts] = useState(chatPosts);
+    const [canSend, updateCanSend] = useState(false);
+    const [chatConnection, setChatConnection] = useState(undefined);
+    const inputRef = useRef(null);
+    const userId = getUserId();
+    const gameId = getGameId();
+
+    useEffect(async () => {
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/chat")
+            .build();
+
+        connection.on("SendChatMessage", (drawLinesDto) => {
+            updatePosts(current =>current.concat(createNewPost(drawLinesDto.userName, drawLinesDto.message)));
+        });
+        await connection.start();
+        await connection.invoke("AddToGroup", {
+            userId,
+            gameId
+        });
+        setChatConnection(connection);
+
+        return () => {
+            chatConnection.invoke("RemoveFromGroup", {
+                userId,
+                gameId
+            }).then(_ => chatConnection.stop().then(_ => setChatConnection(undefined)))
+        }
+    }, []);
+
+    useEffect( () => {
+        updatePosts(chatPosts);
+    }, [chatPosts]);
+
+
+    const onSubmit = async () => {
+        const message = inputRef.current.value;
+        if (!message) {
             return;
         }
-        updatePosts([...posts, createNewPost(nickName, comment)]);
+
         inputRef.current.value = '';
         updateCanSend(false);
+
+        if (chatConnection) {
+            await chatConnection.invoke("SendChatMessage", {
+                userId,
+                gameId,
+                message
+            });
+        }
     };
 
     return (
@@ -68,5 +93,6 @@ export const Chat = ({nickName, isGameLead = false}) => {
 
 Chat.propTypes = {
     nickName: PropTypes.string.isRequired,
-    isGameLead: PropTypes.bool
+    isGameLead: PropTypes.bool,
+    chatPosts: PropTypes.array
 };

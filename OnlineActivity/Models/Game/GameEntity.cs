@@ -21,6 +21,6 @@ namespace OnlineActivity.Models
 
         public List<Line> CanvasLines { get; set; } = new List<Line>();
 
-        public List<Guid> MessageIds { get; set; } = new List<Guid>();
+        public List<Guid> ChatMessageIds { get; set; } = new List<Guid>();
     }
 }

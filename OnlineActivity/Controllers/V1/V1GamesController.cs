@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -13,12 +15,14 @@ namespace OnlineActivity.Controllers.V1
     {
         private readonly IUserRepository userRepository;
         private readonly IGameRepository gameRepository;
+        private readonly IChatMessageRepository chatMessageRepository;
         private readonly IMapper mapper;
 
-        public V1GamesController(IUserRepository userRepository, IGameRepository gameRepository, IMapper mapper)
+        public V1GamesController(IUserRepository userRepository, IGameRepository gameRepository, IChatMessageRepository chatMessageRepository, IMapper mapper)
         {
             this.userRepository = userRepository;
             this.gameRepository = gameRepository;
+            this.chatMessageRepository = chatMessageRepository;
             this.mapper = mapper;
         }
 
@@ -39,12 +43,24 @@ namespace OnlineActivity.Controllers.V1
             var gameEntity = await gameRepository.GetAsync(gameId);
             var gameToSendDto = mapper.Map<GameToSendDto>(gameEntity);
 
+            var playerNamesById = new Dictionary<Guid, string>();
+
             foreach (var playerId in gameEntity.PlayersIds)
             {
                 var player = await userRepository.GetAsync(playerId);
+                playerNamesById[playerId] = player.Login;
                 var playerToSend = mapper.Map<UserToSendDto>(player);
                 gameToSendDto.Players.Add(playerToSend);
             }
+
+            foreach (var chatMessageId in gameEntity.ChatMessageIds)
+            {
+                var chatMessageEntity = await chatMessageRepository.GetAsync(chatMessageId);
+                var messageDto = mapper.Map<ChatMessageToSendDto>(chatMessageEntity);
+                messageDto.UserName = playerNamesById[messageDto.UserId];
+                gameToSendDto.ChatMessages.Add(messageDto);
+            }
+
             return Ok(gameToSendDto);
         }
     }

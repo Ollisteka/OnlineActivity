@@ -36,7 +36,7 @@ namespace OnlineActivity.Repositories
         public Task<GameEntity> AddMessageIdToGameAsync(Guid gameId, Guid messageId)
         {
             var update = Builders<GameEntity>.Update
-                .Push(_ => _.MessageIds, messageId);
+                .Push(_ => _.ChatMessageIds, messageId);
             var options = new FindOneAndUpdateOptions<GameEntity> { ReturnDocument = ReturnDocument.After };
 
             return Collection.FindOneAndUpdateAsync<GameEntity, GameEntity>(_ => _.Id == gameId, update, options);
