@@ -1,0 +1,10 @@
+.players-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.players-list_item {
+    list-style: none;
+}

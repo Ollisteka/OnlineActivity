@@ -24,6 +24,9 @@
     <Content Include="ClientApp\src\components\AuthForm.js" />
     <Content Include="ClientApp\src\components\Home.css" />
     <Content Include="ClientApp\src\components\registerServiseWorker.js" />
+    <Content Include="ClientApp\src\utils\getQueryVariable.js" />
+    <Content Include="ClientApp\src\utils\loginFunction.js" />
+    <Content Include="ClientApp\src\utils\registerFunction.js" />
     <None Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>

@@ -2,6 +2,11 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import * as signalR from "@microsoft/signalr";
 import {getGameId, getUserId} from './WaitingRoom';
 
+
+import "./Canvas.css";
+
+let currentColor = 'black';
+
 async function getCurrentCanvas() {
     const gameId = getGameId();
     const response = await fetch(`api/v1/games/${gameId}`);
@@ -19,7 +24,7 @@ async function getCurrentCanvas() {
     return lines;
 }
 
-export const Canvas = ({width, height}) => {
+export const Canvas = ({height, width}) => {
     const canvasRef = useRef(null);
     const [isPainting, setIsPainting] = useState(false);
     const [mousePosition, setMousePosition] = useState(undefined);
@@ -91,7 +96,7 @@ export const Canvas = ({width, height}) => {
                         end: newMousePosition
                     };
                     setLinesToSend(lines => lines.concat(newLine));
-                    drawLine(mousePosition, newMousePosition);
+                    drawLine(mousePosition, newMousePosition, currentColor);
                     setMousePosition(newMousePosition);
                 }
             }
@@ -145,7 +150,7 @@ export const Canvas = ({width, height}) => {
         return {X: event.pageX - canvas.offsetLeft, Y: event.pageY - canvas.offsetTop};
     };
 
-    const drawLine = (originalMousePosition, newMousePosition) => {
+    const drawLine = (originalMousePosition, newMousePosition, color) => {
         if (!canvasRef.current) {
             return;
         }
@@ -153,7 +158,7 @@ export const Canvas = ({width, height}) => {
         const canvas = canvasRef.current;
         const context = canvas.getContext('2d');
         if (context) {
-            context.strokeStyle = 'blue';
+            context.strokeStyle = color;
             context.lineJoin = 'round';
             context.lineWidth = 5;
 
@@ -166,7 +171,20 @@ export const Canvas = ({width, height}) => {
         }
     };
 
-    return <canvas ref={canvasRef} height={height} width={width}/>;
+    return (
+        <div>
+            <ul className={'palette'}>
+                <li><button className={'red'} onClick={() => currentColor = 'red'}/></li>
+                <li><button className={'green'} onClick={() => {currentColor = 'green'}}/></li>
+                <li><button className={'black'} onClick={() => {currentColor = 'black'}}/></li>
+                <li><button className={'white'} onClick={() => {currentColor = 'white'}}/></li>
+                <li><button className={'yellow'} onClick={() => {currentColor = 'yellow'}}/></li>
+                <li><button className={'blue'} onClick={() => {currentColor = 'blue'}}/></li>
+
+            </ul>
+            <canvas ref={canvasRef} height={height} width={width} />
+        </div>
+    );
 };
 
 Canvas.defaultProps = {

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import classnames from "classnames";
 import IconSend from "@skbkontur/react-icons/Send3"
 import {Post} from "./Post";
-import * as styles from './Chat.module.css';
+import * as styles from './Chat.css';
 
 const defaultPosts = [
     {
@@ -54,13 +54,13 @@ export const Chat = ({nickName, isGameLead = false}) => {
                 {posts.map(post => (<Post key={post.id} post={post} activeReactions={isGameLead}/>))}
             </div>
             {!isGameLead && (
-                <form className={styles.wordForm} action={''} method={'XXX'}>
+                <div className={styles.wordForm}>
                     <input className={styles.input} placeholder={'Угадайте слово'} name={'guess-word'} ref={inputRef}
                            onChange={evt => updateCanSend(!!evt.target.value)} autoComplete={'off'}/>
                     <button className={styles.send} type={'button'} onClick={onSubmit} disabled={!canSend}>
                         <IconSend/>
                     </button>
-                </form>
+                </div>
             )}
         </div>
     )

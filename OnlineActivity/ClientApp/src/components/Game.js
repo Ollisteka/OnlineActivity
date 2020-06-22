@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types';
 import {Chat} from "./Chat";
 import {Canvas} from "./Canvas";
-import * as styles from './Game.module.css';
+import * as styles from './Game.css';
 import * as classNames from 'classnames';
 
 export const GamePage = ({gameId = '1234-abcd', nickName = 'Смешарик', wordToPaint = 'Сессия'}) => {
@@ -25,7 +25,7 @@ export const GamePage = ({gameId = '1234-abcd', nickName = 'Смешарик', w
                             <span className={styles.word}>{wordToPaint}</span>
                         </div>
                     )}
-                    <Canvas height={800} width={1000}/>
+                    <Canvas height={0.7 * window.innerHeight} width={0.7 * window.innerWidth}/>
                 </div>
             </div>
             <Chat nickName={nickName}/>

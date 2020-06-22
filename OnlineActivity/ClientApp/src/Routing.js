@@ -7,7 +7,7 @@ import {LeaderBoard} from "./components/Leaderboard";
 import {CallbackPage} from "./components/CallbackPage";
 import {logout} from "./components/UserManager";
 import {WaitingRoom} from "./components/WaitingRoom";
-import Button from "@skbkontur/react-ui/Button";
+import "./Routing.css";
 
 const gamePage = '/game/:id';
 const leaderBoardPage = '/leaderboard';
@@ -28,10 +28,10 @@ export const Navigation = () => {
         <nav>
             {loggedOn ?
                 <ul>
-                    <li><Link to='/'>Main</Link></li>
-                    <li><Link to={gamePage}>Игровое поле</Link></li>
-                    <li><Link to={leaderBoardPage}>Лидерборд</Link></li>
-                    <li><Button use={'primary'} onClick={logout}>Выйти</Button></li>
+                    <li><button><Link className="nav-link" to='/'>Main</Link></button></li>
+                    {/*<li><button><Link  className="nav-link" to={gamePage}>Игровое поле</Link></button></li>*/}
+                    <li><button><Link  className="nav-link" to={leaderBoardPage}>Лидерборд</Link></button></li>
+                    <li><button onClick={logout}>Выйти</button></li>
                 </ul>
             :
             null}

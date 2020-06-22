@@ -23,7 +23,14 @@
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
     <Content Remove="$(SpaRoot)**" />
+    <Content Include="ClientApp\src\components\Canvas.css" />
+    <Content Include="ClientApp\src\components\GameInition.js" />
+    <Content Include="ClientApp\src\components\JoiningToGame.css" />
+    <Content Include="ClientApp\src\components\JoiningToGame.js" />
     <Content Include="ClientApp\src\components\Registration.css" />
+    <Content Include="ClientApp\src\components\WaitingRoom.css" />
+    <Content Include="ClientApp\src\Routing.css" />
+    <Content Include="ClientApp\src\utils\createGame.js" />
     <None Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
