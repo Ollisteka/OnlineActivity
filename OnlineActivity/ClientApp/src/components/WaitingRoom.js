@@ -10,7 +10,7 @@ export function getGameId() {
     return currentHref[currentHref.length - 1];
 }
 
-export function getUserId(){
+export function getUserId() {
     return Cookies.get("UserId");
 }
 
@@ -98,15 +98,21 @@ export const WaitingRoom = () => {
         }, []);
 
     return (
-        <div>
+        <div className={'waiting-room'}>
+            <p className={'waiting-room_game-code'}>Код игры:  {getGameId()}</p>
+            <button className={'waiting-room_text-code'} onClick={
+                () => {navigator.clipboard.writeText(getGameId())
+                    .then(() => alert('Copied!'));
+            }}>
+                Скопировать код игры
+            </button>
             {creatorId === Cookies.get("UserId") ?
-                <Button onClick={async () => await startGame(roomConnection)}>Начать игру</Button> :
+                <button className={'waiting-room_button'} onClick={async () => await startGame(roomConnection)}>Начать игру</button> :
                 undefined}
-                <p>Код игры, скопируй его и поделись с друзьями</p>
-                <p>Список игроков:</p>
-            <ul className={'players-list'}>
+            <p className={'waiting-room_text-list'}>Список игроков в комнате ожидания:</p>
+            <ul className={'waiting-room_players-list'}>
                 {players.map(item => (
-                    <li className={'players-list_item'} key={item.id}>
+                    <li className={'waiting-room_players-list_item'} key={item.id}>
                         <label>{item.login}</label>
                     </li>
                 ))}

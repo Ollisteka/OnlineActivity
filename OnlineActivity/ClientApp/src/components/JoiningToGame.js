@@ -24,7 +24,7 @@ export const JoinGame = () => {
     return (
         <div className={'input-game-id'}>
             <Input ref={input} placeholder={gameIdPlaceholder} required/>
-            <button onClick={async () => {
+            <button className={'input-game-id_button'} onClick={async () => {
                 const gameId = input.current.input.value;
                 const userId = Cookies.get("UserId");
                 await connection.invoke("ConnectToGame", {

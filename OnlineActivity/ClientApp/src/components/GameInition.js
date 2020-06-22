@@ -21,7 +21,7 @@ export const InitGame = () => {
     }, []);
 
     return (<Gapped gap={20} vertical>
-            <button
+            <button className={'initial-game_button'}
                 onClick={async () => {
                     const userId = Cookies.get("UserId");
                     const gameId = await createGame();

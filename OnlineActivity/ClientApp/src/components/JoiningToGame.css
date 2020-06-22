@@ -3,9 +3,11 @@
     flex-direction: column;
 }
 
-button {
+.initial-game_button,
+.input-game-id_button {
     width: 250px;
     height: 35px;
     border: grey solid 1px;
     font-size: 20px;
+    background-color: #ff8ba7;
 }

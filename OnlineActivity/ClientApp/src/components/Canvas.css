@@ -2,8 +2,10 @@
     list-style: none;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     padding: 10px;
+    border: grey solid 3px;
+    
 }
 
 .red,
@@ -16,6 +18,7 @@
     height: 30px;
     outline: grey;
     border: none;
+    margin: 0 100px 0 0;
 }
 
 .red {

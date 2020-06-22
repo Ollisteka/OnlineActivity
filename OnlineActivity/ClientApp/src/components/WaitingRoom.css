@@ -1,10 +1,54 @@
-.players-list {
+*  {
+    font-family: 'Yandex Sans Display', 'sans-serif';
+}
+
+.waiting-room {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 100px 0 0 0;
+}
+
+.waiting-room_game-code {
+    font-size: 20px;
+    margin: 0 0 25px 0;
+}
+
+.waiting-room_text-code {
+    width: 500px;
+    height: 60px;
+    margin: 0 0 50px 0;
+    font-size: 20px;
+}
+
+.waiting-room_text-list {
+    font-size: 20px;
+}
+
+.waiting-room_players-list {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-.players-list_item {
+.waiting-room_players-list_item {
     list-style: none;
+    font-size: 20px;
+    text-align: left;
 }
+
+.waiting-room_button {
+    border: grey solid 1px;
+    width: 500px;
+    height: 60px;
+    font-size: 20px;
+    background-color: #ff8ba7;
+    margin: 0 0 50px 0;
+}
+
+
+
+
+

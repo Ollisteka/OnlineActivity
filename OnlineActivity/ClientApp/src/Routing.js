@@ -28,10 +28,10 @@ export const Navigation = () => {
         <nav>
             {loggedOn ?
                 <ul>
-                    <li><button><Link className="nav-link" to='/'>Main</Link></button></li>
+                    <li><button className={'nav-button'}><Link className="nav-link" to='/'>Главная</Link></button></li>
                     {/*<li><button><Link  className="nav-link" to={gamePage}>Игровое поле</Link></button></li>*/}
-                    <li><button><Link  className="nav-link" to={leaderBoardPage}>Лидерборд</Link></button></li>
-                    <li><button onClick={logout}>Выйти</button></li>
+                    <li><button className={'nav-button'}><Link  className="nav-link" to={leaderBoardPage}>Лидерборд</Link></button></li>
+                    <li><button className={'nav-button'} onClick={logout}>Выйти</button></li>
                 </ul>
             :
             null}

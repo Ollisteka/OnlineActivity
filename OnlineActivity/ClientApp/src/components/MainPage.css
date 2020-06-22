@@ -1,4 +1,8 @@
-﻿.main-page {
+﻿* {
+    font-family: 'Yandex Sans Display', 'sans-serif'; 
+}
+
+.main-page {
     text-align: center;
     min-height: 90vh;
     display: flex;
@@ -18,4 +22,5 @@
     width: 200px;
     height: 100px;
     font-size: 50px;
+    background-color: #ff8ba7;
 }
