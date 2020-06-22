@@ -24,6 +24,7 @@ export const Canvas = ({width, height}) => {
     const [isPainting, setIsPainting] = useState(false);
     const [mousePosition, setMousePosition] = useState(undefined);
     const [canvasConnection, setCanvasConnection] = useState(undefined);
+    const [linesToSend, setLinesToSend] = useState([]);
 
     const userId = getUserId();
     const gameId = getGameId();
@@ -41,11 +42,12 @@ export const Canvas = ({width, height}) => {
             .withUrl("/canvas")
             .build();
 
-        connection.on("DrawLine", (drawLineDto) => {
-            const line = drawLineDto.line;
-            drawLine(
-                {X: parseInt(line.start.x), Y: parseInt(line.start.y)},
-                {X: parseInt(line.end.x), Y: parseInt(line.end.y)})
+        connection.on("DrawLines", (drawLinesDto) => {
+            for (const line of drawLinesDto.lines) {
+                drawLine(
+                    {X: parseInt(line.start.x), Y: parseInt(line.start.y)},
+                    {X: parseInt(line.end.x), Y: parseInt(line.end.y)})
+            }
         });
 
         await connection.start();
@@ -84,15 +86,11 @@ export const Canvas = ({width, height}) => {
             if (isPainting) {
                 const newMousePosition = getCoordinates(event);
                 if (mousePosition && newMousePosition) {
-                    if (canvasConnection)
-                        canvasConnection.invoke("DrawLine", {
-                            line: {
-                                start: mousePosition,
-                                end: newMousePosition
-                            },
-                            gameId,
-                            userId
-                        });
+                    const newLine = {
+                        start: mousePosition,
+                        end: newMousePosition
+                    };
+                    setLinesToSend(lines => lines.concat(newLine));
                     drawLine(mousePosition, newMousePosition);
                     setMousePosition(newMousePosition);
                 }
@@ -112,10 +110,18 @@ export const Canvas = ({width, height}) => {
         };
     }, [paint]);
 
-    const exitPaint = useCallback(() => {
+    const exitPaint = async () => {
         setIsPainting(false);
         setMousePosition(undefined);
-    }, []);
+        if (canvasConnection && linesToSend.length > 0){
+            await canvasConnection.invoke("DrawLines", {
+                lines: linesToSend,
+                gameId,
+                userId
+            });
+            setLinesToSend([]);
+        }
+    };
 
     useEffect(() => {
         if (!canvasRef.current) {
@@ -147,7 +153,7 @@ export const Canvas = ({width, height}) => {
         const canvas = canvasRef.current;
         const context = canvas.getContext('2d');
         if (context) {
-            context.strokeStyle = 'red';
+            context.strokeStyle = 'blue';
             context.lineJoin = 'round';
             context.lineWidth = 5;
 

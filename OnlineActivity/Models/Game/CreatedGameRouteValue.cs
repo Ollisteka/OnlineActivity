@@ -14,5 +14,4 @@ namespace OnlineActivity.Models
         [JsonProperty("gameId")]
         public Guid GameId { get; }
     }
-    
 }

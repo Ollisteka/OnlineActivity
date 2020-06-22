@@ -32,7 +32,7 @@ const createNewPost = (nickName, comment) => {
     };
 };
 
-export const Chat = ({nickName, isGameLead = true}) => {
+export const Chat = ({nickName, isGameLead = false}) => {
     const [posts, updatePosts] = useState(defaultPosts);
     const [canSend, updateCanSend] = useState(false);
     const inputRef = useRef();

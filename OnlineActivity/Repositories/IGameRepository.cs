@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using OnlineActivity.Models;
 
@@ -8,6 +9,8 @@ namespace OnlineActivity.Repositories
     {
         public Task<GameEntity> AddUserToGameAsync(Guid gameId, Guid userId);
 
-        public Task<GameEntity> AddLineToGameAsync(Guid gameId, Line line);
+        public Task<GameEntity> AddLinesToGameAsync(Guid gameId, IEnumerable<Line> line);
+
+        public Task<GameEntity> AddMessageIdToGameAsync(Guid gameId, Guid messageId);
     }
 }

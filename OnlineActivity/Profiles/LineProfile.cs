@@ -10,7 +10,7 @@ namespace OnlineActivity.Profiles
     {
         public LineProfile()
         {
-            CreateMap<DrawLineDto, LineDtoToSend>();
+            CreateMap<DrawLinesDto, LinesDtoToSend>();
         }
     }
 }

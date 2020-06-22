@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.SignalR;
+using OnlineActivity.Extensions;
 using OnlineActivity.Models;
 using OnlineActivity.Repositories;
 
@@ -72,9 +73,9 @@ namespace OnlineActivity.Hubs
             
             game.StartTime = DateTime.UtcNow;
             game.Status = GameStatus.Active;
+            game.DrawerPlayerId = game.PlayersIds.GetRandomItem();
 
             await gameRepository.MergeAsync(game);
-
 
             var result = new GameStartedDto {GameId = game.Id, StartTime = DateTime.UtcNow};
             var groupName = game.Id.ToString();

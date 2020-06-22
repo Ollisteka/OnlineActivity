@@ -20,5 +20,7 @@ namespace OnlineActivity.Models
         public Guid DrawerPlayerId { get; set; }
 
         public List<Line> CanvasLines { get; set; } = new List<Line>();
+
+        public List<Guid> MessageIds { get; set; } = new List<Guid>();
     }
 }

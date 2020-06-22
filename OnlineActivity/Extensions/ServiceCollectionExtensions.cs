@@ -14,6 +14,7 @@ namespace OnlineActivity.Extensions
         {
             serviceCollection.AddSingleton<IUserRepository, MongoUserRepository>();
             serviceCollection.AddSingleton<IGameRepository, MongoGameRepository>();
+            serviceCollection.AddSingleton<IChatMessageRepository, MongoChatMessageRepository>();
         }
 
         public static void AddSettings(this IServiceCollection serviceCollection, IConfiguration configuration)

@@ -34,21 +34,21 @@ namespace OnlineActivity.Hubs
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, hubGroupDto.GameId.ToString());
         }
 
-        [HubMethodName("DrawLine")]
-        public async Task DrawLineAsync(DrawLineDto drawLineDto)
+        [HubMethodName("DrawLines")]
+        public async Task DrawLinesAsync(DrawLinesDto drawLinesDto)
         {
-            var sender = await userRepository.GetAsync(drawLineDto.UserId);
-            var game = await gameRepository.GetAsync(drawLineDto.GameId);
+            var sender = await userRepository.GetAsync(drawLinesDto.UserId);
+            var game = await gameRepository.GetAsync(drawLinesDto.GameId);
             //if (sender.Id != game.DrawerPlayerId)
             //{
             //    await Clients.Caller.SendAsync("Error", new ErrorMessage { Id = "draw-line-error", Message = "Only selected drawer can draw on canvas" });
             //    return;
             //}
 
-            var updated = await gameRepository.AddLineToGameAsync(game.Id, drawLineDto.Line);
-            var result = mapper.Map<LineDtoToSend>(drawLineDto);
+            await gameRepository.AddLinesToGameAsync(game.Id, drawLinesDto.Lines);
+            var result = mapper.Map<LinesDtoToSend>(drawLinesDto);
             var groupName = game.Id.ToString();
-            await Clients.Group(groupName).SendAsync("DrawLine", result);
+            await Clients.Group(groupName).SendAsync("DrawLines", result);
         }
     }
 }

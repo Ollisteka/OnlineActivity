@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
@@ -23,10 +24,19 @@ namespace OnlineActivity.Repositories
             return Collection.FindOneAndUpdateAsync<GameEntity, GameEntity>(_ => _.Id == gameId, update, options);
         }
 
-        public Task<GameEntity> AddLineToGameAsync(Guid gameId, Line line)
+        public Task<GameEntity> AddLinesToGameAsync(Guid gameId, IEnumerable<Line> lines)
         {
             var update = Builders<GameEntity>.Update
-                .Push(_ => _.CanvasLines, line);
+                .PushEach(_ => _.CanvasLines, lines);
+            var options = new FindOneAndUpdateOptions<GameEntity> { ReturnDocument = ReturnDocument.After };
+
+            return Collection.FindOneAndUpdateAsync<GameEntity, GameEntity>(_ => _.Id == gameId, update, options);
+        }
+
+        public Task<GameEntity> AddMessageIdToGameAsync(Guid gameId, Guid messageId)
+        {
+            var update = Builders<GameEntity>.Update
+                .Push(_ => _.MessageIds, messageId);
             var options = new FindOneAndUpdateOptions<GameEntity> { ReturnDocument = ReturnDocument.After };
 
             return Collection.FindOneAndUpdateAsync<GameEntity, GameEntity>(_ => _.Id == gameId, update, options);

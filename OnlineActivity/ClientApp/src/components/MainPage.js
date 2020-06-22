@@ -30,7 +30,7 @@ const JoinGame = () => {
     return (
         <form className={'vertical'} action={''} method={'XXX'}>
             <Input ref={input} placeholder={gameIdPlaceholder} required/>
-            <Button onClick={async () => {
+            <Button className={'red'} onClick={async () => {
                 const gameId = input.current.input.value;
                 const userId = Cookies.get("UserId");
                 await connection.invoke("ConnectToGame", {

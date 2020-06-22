@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using OnlineActivity.Models;
 
@@ -11,7 +12,12 @@ namespace OnlineActivity.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<GameEntity> AddLineToGameAsync(Guid gameId, Line line)
+        public Task<GameEntity> AddLinesToGameAsync(Guid gameId, IEnumerable<Line> line)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<GameEntity> AddMessageIdToGameAsync(Guid gameId, Guid messageId)
         {
             throw new NotImplementedException();
         }
