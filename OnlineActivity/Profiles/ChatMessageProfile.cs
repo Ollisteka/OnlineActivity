@@ -12,7 +12,7 @@ namespace OnlineActivity.Profiles
         {
             CreateMap<ChatMessageDto, ChatMessageEntity>()
                 .ForMember(_ => _.SendingTime,
-                    options => options.MapFrom(_ => DateTime.UtcNow))
+                    options => options.MapFrom(_ => DateTime.UtcNow));
 
             CreateMap<ChatMessageEntity, ChatMessageToSendDto>();
         }

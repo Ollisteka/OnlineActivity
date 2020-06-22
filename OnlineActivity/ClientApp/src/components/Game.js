@@ -1,12 +1,30 @@
-﻿import React from "react";
+﻿import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {Chat} from "./Chat";
 import {Canvas} from "./Canvas";
 import * as styles from './Game.css';
 import * as classNames from 'classnames';
+import {getGameId, getUserId} from "./WaitingRoom";
 
-export const GamePage = ({gameId = '1234-abcd', nickName = 'Смешарик', wordToPaint = 'Сессия'}) => {
+async function getUserNameById(userId) {
+    const response = await fetch(`api/v1/users/${userId}`);
+    const data = await response.json();
+
+    return data.login;
+}
+
+export const GamePage = ({wordToPaint = 'Сессия'}) => {
+    const [userName, setUserName] = useState(undefined);
+
     const secondsLeft = 299;
+    const userId = getUserId();
+    const gameId = getGameId();
+
+    useEffect( async () => {
+        const name = await getUserNameById(userId);
+        setUserName(name);
+    }, []);
+
     return (
         <div className={'game-page centered'}>
             <div className={'game'}>
@@ -28,7 +46,7 @@ export const GamePage = ({gameId = '1234-abcd', nickName = 'Смешарик', w
                     <Canvas height={0.7 * window.innerHeight} width={0.7 * window.innerWidth}/>
                 </div>
             </div>
-            <Chat nickName={nickName}/>
+            <Chat nickName={userName}/>
         </div>
     );
 };

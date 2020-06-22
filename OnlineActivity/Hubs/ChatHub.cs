@@ -11,12 +11,14 @@ namespace OnlineActivity.Hubs
     internal sealed class ChatHub : Hub
     {
         private readonly IGameRepository gameRepository;
+        private readonly IUserRepository userRepository;
         private readonly IChatMessageRepository chatMessageRepository;
         private readonly IMapper mapper;
 
-        public ChatHub(IGameRepository gameRepository, IChatMessageRepository chatMessageRepository, IMapper mapper)
+        public ChatHub(IGameRepository gameRepository, IUserRepository userRepository, IChatMessageRepository chatMessageRepository, IMapper mapper)
         {
             this.gameRepository = gameRepository;
+            this.userRepository = userRepository;
             this.chatMessageRepository = chatMessageRepository;
             this.mapper = mapper;
         }
@@ -36,11 +38,16 @@ namespace OnlineActivity.Hubs
         [HubMethodName("SendChatMessage")]
         public async Task SendChatMessageAsync(ChatMessageDto chatMessageDto)
         {
-            var chatMessage = mapper.Map<ChatMessageEntity>(chatMessageDto);
-            await gameRepository.AddMessageToGameAsync(chatMessageDto.GameId, chatMessage);
-            
+            var chatMessageEntity = mapper.Map<ChatMessageEntity>(chatMessageDto);
+            await chatMessageRepository.InsertAsync(chatMessageEntity);
+            await gameRepository.AddMessageIdToGameAsync(chatMessageDto.GameId, chatMessageEntity.Id);
+
+            var chatMessageToSendDto = mapper.Map<ChatMessageToSendDto>(chatMessageEntity);
+            var sender = await userRepository.GetAsync(chatMessageDto.UserId);
+            chatMessageToSendDto.UserName = sender.Login;
+
             var groupName = chatMessageDto.GameId.ToString();
-            await Clients.GroupExcept(groupName, Context.ConnectionId).SendAsync("SendChatMessage", chatMessageDto);
+            await Clients.GroupExcept(groupName, Context.ConnectionId).SendAsync("SendChatMessage", chatMessageToSendDto);
         }
 
         [HubMethodName("SendReactionAsync")]
