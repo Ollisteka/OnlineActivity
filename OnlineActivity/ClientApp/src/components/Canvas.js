@@ -30,7 +30,8 @@ export const Canvas = ({height, width}) => {
     const [mousePosition, setMousePosition] = useState(undefined);
     const [canvasConnection, setCanvasConnection] = useState(undefined);
     const [linesToSend, setLinesToSend] = useState([]);
-
+    
+    
     const userId = getUserId();
     const gameId = getGameId();
 
@@ -118,7 +119,7 @@ export const Canvas = ({height, width}) => {
     const exitPaint = async () => {
         setIsPainting(false);
         setMousePosition(undefined);
-        if (canvasConnection && linesToSend.length > 0){
+        if (canvasConnection && linesToSend.length > 0) {
             await canvasConnection.invoke("DrawLines", {
                 lines: linesToSend,
                 gameId,
@@ -174,15 +175,38 @@ export const Canvas = ({height, width}) => {
     return (
         <div>
             <ul className={'palette'}>
-                <li><button className={'red'} onClick={() => currentColor = 'red'}/></li>
-                <li><button className={'green'} onClick={() => {currentColor = 'green'}}/></li>
-                <li><button className={'black'} onClick={() => {currentColor = 'black'}}/></li>
-                <li><button className={'white'} onClick={() => {currentColor = 'white'}}/></li>
-                <li><button className={'yellow'} onClick={() => {currentColor = 'yellow'}}/></li>
-                <li><button className={'blue'} onClick={() => {currentColor = 'blue'}}/></li>
-
+                <li>
+                    <button className={'red'} onClick={() => {
+                        currentColor = 'red';
+                    }}>{currentColor === 'red' ? '★' : ''}</button>
+                </li>
+                <li>
+                    <button className={'green'} onClick={() => {
+                        currentColor = 'green';
+                    }}>{currentColor === 'green' ? '★' : ''}</button>
+                </li>
+                <li>
+                    <button className={'black'} onClick={() => {
+                        currentColor = 'black';
+                    }}>{currentColor === 'black' ? '★' : ''}</button>
+                </li>
+                <li>
+                    <button className={'white'} onClick={() => {
+                        currentColor = 'white';
+                    }}>{currentColor === 'white' ? '★' : ''}</button>
+                </li>
+                <li>
+                    <button className={'yellow'} onClick={() => {
+                        currentColor = 'yellow';
+                    }}>{currentColor === 'yellow' ? '★' : ''}</button>
+                </li>
+                <li>
+                    <button className={'blue'} onClick={() => {
+                        currentColor = 'blue';
+                    }}>{currentColor === 'blue' ? '★' : ''}</button>
+                </li>
             </ul>
-            <canvas ref={canvasRef} height={height} width={width} />
+            <canvas ref={canvasRef} height={height} width={width}/>
         </div>
     );
 };

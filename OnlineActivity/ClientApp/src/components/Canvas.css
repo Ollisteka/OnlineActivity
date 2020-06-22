@@ -3,6 +3,7 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
+    align-items: center;
     padding: 10px;
     border: grey solid 3px;
     
@@ -14,11 +15,20 @@
 .blue,
 .yellow,
 .white {
-    width: 30px;
-    height: 30px;
-    outline: grey;
     border: none;
+    padding: 16px 30px;
+    text-align: center;
+    font-size: 16px;
     margin: 0 100px 0 0;
+}
+
+.red:target,
+.black:target,
+.green:target,
+.blue:target,
+.yellow:target,
+.white:target {
+    border: #ff8ba7 solid 10px;
 }
 
 .red {
@@ -35,6 +45,7 @@
 
 .blue {
     background-color: blue;
+    margin: 0;
 }
 
 .yellow {
