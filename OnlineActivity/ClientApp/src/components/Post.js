@@ -11,6 +11,10 @@ export const Post = ({post, activeReactions, guessState, connection, messageId})
     const [chatConnection, setChatConnection] = useState(connection);
 
     useEffect(() => {
+        setGuessState(guessState)
+    },[guessState]);
+
+    useEffect(() => {
         setChatConnection(connection)
     },[connection]);
 

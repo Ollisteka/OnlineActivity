@@ -7,9 +7,9 @@ import {getGameId, getUserId} from './WaitingRoom';
 import './Chat.css';
 import * as GuessState from "./GuessState";
 
-const createNewPost = (nickName, comment, userId) => {
+const createNewPost = (nickName, comment, messageId) => {
     return {
-        id: userId,
+        id: messageId,
         author: nickName,
         comment,
         guessState: GuessState.NONE,
@@ -30,7 +30,8 @@ export const Chat = ({nickName, chatPosts, isGameLead = false}) => {
             .build();
 
         connection.on("SendChatMessage", (messageDto) => {
-            updatePosts(current =>current.concat(createNewPost(messageDto.userName, messageDto.message)));
+            updatePosts(current =>current.concat(
+                createNewPost(messageDto.userName, messageDto.message, messageDto.id)));
         });
         await connection.start();
         await connection.invoke("AddToGroup", {
@@ -45,8 +46,8 @@ export const Chat = ({nickName, chatPosts, isGameLead = false}) => {
                 for (const post of currentPosts) {
                     if (post.id === reactionDto.messageId){
                         post.guessState = reactionDto.reaction;
-                        newPosts.push(post)
                     }
+                    newPosts.push(post)
                 }
               return newPosts;
             })
