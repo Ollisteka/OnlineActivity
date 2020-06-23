@@ -79,7 +79,7 @@ namespace OnlineActivity.Hubs
                 await gameRepository.MergeAsync(game);
             }
 
-            if (reactionDto.Reaction == Reaction.Correct)
+            if (message.Reaction == Reaction.Correct)
             {
                 var passedTime = (DateTime.UtcNow - game.StartTime.Value).Seconds;
                 var timeLeft = game.GameTimeInSeconds - passedTime;

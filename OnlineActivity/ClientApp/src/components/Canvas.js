@@ -16,7 +16,8 @@ async function getCurrentCanvas() {
         lines.push(
             {
                 "start": {X: parseInt(line.start.x), Y: parseInt(line.start.y)},
-                "end": {X: parseInt(line.end.x), Y: parseInt(line.end.y)}
+                "end": {X: parseInt(line.end.x), Y: parseInt(line.end.y)},
+                "color": line.color
             }
         );
     }
@@ -52,7 +53,8 @@ export const Canvas = ({height, width}) => {
             for (const line of drawLinesDto.lines) {
                 drawLine(
                     {X: parseInt(line.start.x), Y: parseInt(line.start.y)},
-                    {X: parseInt(line.end.x), Y: parseInt(line.end.y)})
+                    {X: parseInt(line.end.x), Y: parseInt(line.end.y)},
+                    line.color)
             }
         });
 
@@ -65,7 +67,7 @@ export const Canvas = ({height, width}) => {
 
         const currentCanvas = await getCurrentCanvas();
         for (const line of currentCanvas)
-            drawLine(line.start, line.end);
+            drawLine(line.start, line.end, line.color);
 
         return () => {
             canvasConnection.invoke("RemoveFromGroup", {
@@ -94,7 +96,8 @@ export const Canvas = ({height, width}) => {
                 if (mousePosition && newMousePosition) {
                     const newLine = {
                         start: mousePosition,
-                        end: newMousePosition
+                        end: newMousePosition,
+                        color: currentColor
                     };
                     setLinesToSend(lines => lines.concat(newLine));
                     drawLine(mousePosition, newMousePosition, currentColor);

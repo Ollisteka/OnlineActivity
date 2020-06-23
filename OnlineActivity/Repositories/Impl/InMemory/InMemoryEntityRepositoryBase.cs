@@ -5,7 +5,7 @@ using OnlineActivity.Models;
 
 namespace OnlineActivity.Repositories
 {
-    internal class InMemoryEntityRepositoryBase<TEntity> : IEntityRepository<TEntity>
+    public class InMemoryEntityRepositoryBase<TEntity> : IEntityRepository<TEntity>
         where TEntity: Entity
     {
         protected Dictionary<Guid, TEntity> Repository = new Dictionary<Guid, TEntity>();

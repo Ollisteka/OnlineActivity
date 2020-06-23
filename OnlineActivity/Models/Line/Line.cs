@@ -10,5 +10,8 @@ namespace OnlineActivity.Models
 
         [JsonProperty(PropertyName = "end")]
         public Point End { get; set; }
+
+        [JsonProperty(PropertyName = "color")]
+        public string Color { get; set; }
     }
 }

@@ -56,16 +56,19 @@ const defaultPlayers = [
     },
 ];
 
-async function getListOfUsers() {
-    const response = await fetch(`api/v1/statistics/leaderboard`);
-    return await response.json();
-}
+
 
 export const LeaderBoard = () => {
     const [users, setUsers] = useState([]);
-    
+
+    async function setListOfUsers() {
+        const response = await fetch(`api/v1/statistics/leaderboard`);
+        const data = await response.json();
+        setUsers(data.users);
+    }
+
     useEffect( () => {
-        setUsers(getListOfUsers());
+        setListOfUsers()
     }, []);
     
     return (
