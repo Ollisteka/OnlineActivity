@@ -76,9 +76,10 @@ export const GamePage = ({wordToPaint = 'Сессия'}) => {
                     </Modal>
                 )}
                 {wordToPaint && (
-                    <div className={'game-page_field_paint_word'}>Нарисуй слово: {wordToPaint}</div>
+                    (isGameLead ? <div className={'game-page_field_paint_word'}>Нарисуй слово: {wordToPaint}</div>
+                    : <div className={'game-page_field_paint_word'}>Сейчас рисует: {getGameById(gameId).drawerLogin}</div>)
                 )}
-                <Canvas height={0.6 * window.innerHeight} width={0.7 * window.innerWidth}/>
+                <Canvas height={0.6 * window.innerHeight} width={0.7 * window.innerWidth} isGameLead={isGameLead}/>
             </div>
             <Chat nickName={userName} isGameLead={isGameLead} chatPosts={posts}/>
         </div>
