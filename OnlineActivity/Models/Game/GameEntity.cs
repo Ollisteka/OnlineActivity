@@ -29,5 +29,8 @@ namespace OnlineActivity.Models
 
         [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
         public Dictionary<Guid, int> PointsByPlayerId { get; set; } = new Dictionary<Guid, int>();
+
+        public Guid GameWordId { get; set; }
+
     }
 }

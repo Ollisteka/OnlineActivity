@@ -16,13 +16,16 @@ namespace OnlineActivity.Controllers.V1
         private readonly IUserRepository userRepository;
         private readonly IGameRepository gameRepository;
         private readonly IChatMessageRepository chatMessageRepository;
+        private readonly IGameWordRepository gameWordRepository;
         private readonly IMapper mapper;
 
-        public V1GamesController(IUserRepository userRepository, IGameRepository gameRepository, IChatMessageRepository chatMessageRepository, IMapper mapper)
+        public V1GamesController(IUserRepository userRepository, IGameRepository gameRepository, IChatMessageRepository chatMessageRepository, 
+            IGameWordRepository gameWordRepository, IMapper mapper)
         {
             this.userRepository = userRepository;
             this.gameRepository = gameRepository;
             this.chatMessageRepository = chatMessageRepository;
+            this.gameWordRepository = gameWordRepository;
             this.mapper = mapper;
         }
 
@@ -31,6 +34,8 @@ namespace OnlineActivity.Controllers.V1
         {
             var gameEntity = mapper.Map<GameEntity>(gameToCreateDto);
             gameEntity.GameTimeInSeconds = 300;
+            gameEntity.GameWordId = (await gameWordRepository.GetRandomAsync()).Id;
+
             gameEntity = await gameRepository.InsertAsync(gameEntity);
             var gameToSendDto = mapper.Map<GameToSendDto>(gameEntity);
 
@@ -46,6 +51,7 @@ namespace OnlineActivity.Controllers.V1
 
             var playerNamesById = new Dictionary<Guid, string>();
 
+
             foreach (var playerId in gameEntity.PlayersIds)
             {
                 var player = await userRepository.GetAsync(playerId);
@@ -53,6 +59,9 @@ namespace OnlineActivity.Controllers.V1
                 var playerToSend = mapper.Map<UserToSendDto>(player);
                 gameToSendDto.Players.Add(playerToSend);
             }
+
+            if (gameToSendDto.DrawerPlayerId != Guid.Empty)
+                gameToSendDto.DrawerLogin = playerNamesById[gameEntity.DrawerPlayerId];
 
             foreach (var chatMessageId in gameEntity.ChatMessageIds)
             {
@@ -81,6 +90,7 @@ namespace OnlineActivity.Controllers.V1
 
             gameToSendDto.GameTimeLeftInSeconds = timeLeft;
 
+            gameToSendDto.GameWord = (await gameWordRepository.GetAsync(gameEntity.GameWordId)).Word;
             return Ok(gameToSendDto);
         }
     }

@@ -24,10 +24,15 @@ namespace OnlineActivity.Models
 
         [JsonPropertyName("drawerPlayerId")] public Guid DrawerPlayerId { get; set; }
 
+        [JsonPropertyName("drawerLogin")] public string DrawerLogin { get; set; }
+
         [JsonPropertyName("chatMessages")]
         public List<ChatMessageToSendDto> ChatMessages { get; set; } = new List<ChatMessageToSendDto>();
 
         [JsonPropertyName("gameTimeLeftInSeconds")]
         public int GameTimeLeftInSeconds { get; set; }
+
+        [JsonPropertyName("gameWord")]
+        public string GameWord { get; set; }
     }
 }

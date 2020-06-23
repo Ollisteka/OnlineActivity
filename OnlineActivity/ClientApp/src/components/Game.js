@@ -18,7 +18,6 @@ async function getGameById(gameId) {
     return await response.json();
 }
 
-
 export const GamePage = ({wordToPaint = 'Сессия'}) => {
     const [userName, setUserName] = useState(undefined);
     const [isGameLead, setIsGameLead] = useState(undefined);
@@ -46,7 +45,7 @@ export const GamePage = ({wordToPaint = 'Сессия'}) => {
                 guessState: message.reaction
             })
         }
-
+        wordToPaint = game.gameWord;
         setCounter(game.gameTimeLeftInSeconds);
         setPosts(currentPosts)
     }, []);

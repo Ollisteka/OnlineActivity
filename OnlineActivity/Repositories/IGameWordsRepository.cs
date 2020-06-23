@@ -6,8 +6,8 @@ using OnlineActivity.Models;
 
 namespace OnlineActivity.Repositories
 {
-    internal interface IGameWordRepository : IEntityRepository<GameWordEntity>
+    public interface IGameWordRepository : IEntityRepository<GameWordEntity>
     {
-        public GameWordEntity GetRandomAsync();
+        public Task<GameWordEntity> GetRandomAsync();
     }
 }
