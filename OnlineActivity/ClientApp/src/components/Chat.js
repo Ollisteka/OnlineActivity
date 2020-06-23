@@ -1,21 +1,20 @@
 ﻿import React, {useRef, useState, useEffect} from "react";
 import PropTypes from "prop-types";
-import classnames from "classnames";
 import IconSend from "@skbkontur/react-icons/Send3"
 import {Post} from "./Post";
 import * as signalR from "@microsoft/signalr";
 import {getGameId, getUserId} from './WaitingRoom';
 import './Chat.css';
+import * as GuessState from "./GuessState";
 
-let maxId = 4;
-const createNewPost = (nickName, comment) => {
+const createNewPost = (nickName, comment, userId) => {
     return {
-        id: maxId++,
+        id: userId,
         author: nickName,
-        comment
+        comment,
+        guessState: GuessState.NONE,
     };
 };
-
 
 export const Chat = ({nickName, chatPosts, isGameLead = false}) => {
     const [posts, updatePosts] = useState(chatPosts);
@@ -39,7 +38,12 @@ export const Chat = ({nickName, chatPosts, isGameLead = false}) => {
             gameId
         });
         setChatConnection(connection);
-
+        
+        connection.on("SendReaction", (reactionDto) => {
+            let post = posts.find((post) => post.id === reactionDto.messageId );
+            post.guessState = reactionDto.reaction;
+        });
+        
         return () => {
             chatConnection.invoke("RemoveFromGroup", {
                 userId,
@@ -75,7 +79,7 @@ export const Chat = ({nickName, chatPosts, isGameLead = false}) => {
         <div className={'chat'}>
             <div className={'chat_header_nickname'}>Ваш никнейм: {nickName}</div>
             <div className={'chat_header_post-id'}>
-                {posts.map(post => (<Post key={post.id} post={post} activeReactions={isGameLead}/>))}
+                {posts.map(post => (<Post key={post.id} post={post} guessState={post.guessState} connection={chatConnection} messageId={post.id} activeReactions={isGameLead}/>))}
             </div>
             {!isGameLead && (
                 <div className={'chat_word-form'}>

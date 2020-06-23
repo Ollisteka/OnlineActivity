@@ -1,4 +1,4 @@
-﻿export const NONE = 'NONE';
-export const COLD = 'COLD';
-export const WARM = 'WARM';
-export const CORRECT = 'CORRECT';
+﻿export const NONE = 'None';
+export const COLD = 'Cold';
+export const WARM = 'Warm';
+export const CORRECT = 'Correct';
