@@ -19,6 +19,10 @@ export async function logMeIn() {
     });
     const data = await response.json();
 
+    if (data.status === 401) {
+        alert('Проверьте корректность пароля и логина или зарегистрируйтесь');
+    }
+
     if (data && data.isOk) {
         window.location = data.redirectUrl;
     }
