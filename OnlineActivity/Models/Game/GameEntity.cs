@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.Options;
 
 namespace OnlineActivity.Models
 {
@@ -23,8 +25,9 @@ namespace OnlineActivity.Models
 
         public List<Guid> ChatMessageIds { get; set; } = new List<Guid>();
 
-        public int GameTimeInSeconds { get; set; } 
+        public int GameTimeInSeconds { get; set; }
 
+        [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
         public Dictionary<Guid, int> PointsByPlayerId { get; set; } = new Dictionary<Guid, int>();
     }
 }

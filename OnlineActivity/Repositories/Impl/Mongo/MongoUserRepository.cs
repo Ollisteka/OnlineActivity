@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using OnlineActivity.Models;
 using OnlineActivity.Settings;
@@ -11,6 +13,13 @@ namespace OnlineActivity.Repositories
     {
         public MongoUserRepository(IMongoClient mongoClient, IOptions<MongoSettings> mongoSettings) : base(mongoClient, mongoSettings)
         {
+        }
+
+        public Task<List<UserEntity>> GetUsersByPointsDescendingAsync()
+        {
+            return Collection.Find(_ => true)
+                .SortByDescending(_ => _.Points)
+                .ToListAsync();
         }
 
         public async Task<UserEntity> InsertOrUpdateByLoginAsync(UserEntity userEntity)

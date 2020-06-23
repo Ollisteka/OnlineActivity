@@ -61,6 +61,8 @@ namespace OnlineActivity.Hubs
                 return;
             }
             var message = await chatMessageRepository.GetAsync(reactionDto.MessageId);
+            var messageSender = await userRepository.GetAsync(message.UserId);
+
 
             if (reactionDto.Reaction == Reaction.Warm && message.Reaction == Reaction.None)
             {
@@ -68,8 +70,12 @@ namespace OnlineActivity.Hubs
                     game.PointsByPlayerId[message.UserId] = 0;
 
                 if (game.PointsByPlayerId[message.UserId] <= 48)
+                {
                     game.PointsByPlayerId[message.UserId] += 2;
-
+                    messageSender.Points += 2;
+                    await userRepository.MergeAsync(messageSender);
+                }
+                    
                 await gameRepository.MergeAsync(game);
             }
 
@@ -81,7 +87,10 @@ namespace OnlineActivity.Hubs
 
                 if (!game.PointsByPlayerId.ContainsKey(message.UserId))
                     game.PointsByPlayerId[message.UserId] = 0;
+
                 game.PointsByPlayerId[message.UserId] += 50;
+                messageSender.Points += 50;
+                await userRepository.MergeAsync(messageSender);
 
                 game.FinishTime = DateTime.UtcNow;
                 game.Status = GameStatus.Finished;
@@ -91,8 +100,6 @@ namespace OnlineActivity.Hubs
 
             message.Reaction = reactionDto.Reaction;
             await chatMessageRepository.MergeAsync(message);
-
-
 
             var groupName = reactionDto.GameId.ToString();
             var reactionToSendDto = mapper.Map<ReactionToSendDto>(reactionDto);
