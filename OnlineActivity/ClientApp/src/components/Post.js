@@ -3,12 +3,15 @@ import PropTypes from "prop-types";
 import * as GuessState from './GuessState';
 import classNames from 'classnames';
 import {getGameId, getUserId} from './WaitingRoom';
+import Modal from "@skbkontur/react-ui/Modal";
+import Button from "@skbkontur/react-ui/Button";
 
 export const Post = ({post, activeReactions, guessState, connection, messageId}) => {
     const [guess, setGuessState] = useState(guessState);
     const {author, comment} = post;
     const reactionButtons = activeReactions;
     const [chatConnection, setChatConnection] = useState(connection);
+    const [isOpened, setOpening] = React.useState(false);
 
     useEffect(() => {
         setGuessState(guessState)
@@ -29,6 +32,7 @@ export const Post = ({post, activeReactions, guessState, connection, messageId})
     const onCorrectButtonClick = async () => {
         await sendReaction(GuessState.CORRECT);
         setGuessState(GuessState.CORRECT);
+        setOpening(true);
     };
 
     const sendReaction = async (reaction) => {
@@ -43,12 +47,22 @@ export const Post = ({post, activeReactions, guessState, connection, messageId})
     };
 
     return (
-        <div
-            className={classNames('post', {
+        <div className={classNames('post', {
                 'post__warm': guess === GuessState.WARM,
                 'post__cold': guess === GuessState.COLD,
                 'post__correct': guess === GuessState.CORRECT
             })}>
+            {isOpened && (
+                <Modal onClose={() => setOpening(false)}>
+                    <Modal.Header>Игра закончилась</Modal.Header>
+                    <Modal.Body>
+                        <p>Выиграл: Вася</p>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button use={'default'} onClick={() => window.location = `/waitroom/${getGameId()}`}>Начать заново</Button>
+                    </Modal.Footer>
+                </Modal>
+            )}
             {reactionButtons && (
                 <>
                     <button className={'cold-button'} onClick={onColdButtonClick}/>

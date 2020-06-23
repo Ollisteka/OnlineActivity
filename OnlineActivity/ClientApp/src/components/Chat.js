@@ -6,6 +6,8 @@ import * as signalR from "@microsoft/signalr";
 import {getGameId, getUserId} from './WaitingRoom';
 import './Chat.css';
 import * as GuessState from "./GuessState";
+import Modal from "@skbkontur/react-ui/Modal";
+import Button from "@skbkontur/react-ui/Button";
 
 const createNewPost = (nickName, comment, messageId) => {
     return {
@@ -20,9 +22,12 @@ export const Chat = ({nickName, chatPosts, isGameLead = false}) => {
     const [posts, updatePosts] = useState(chatPosts);
     const [canSend, updateCanSend] = useState(false);
     const [chatConnection, setChatConnection] = useState(undefined);
+    const [isOpened, setOpening] = React.useState(false);
+
     const inputRef = useRef(null);
     const userId = getUserId();
     const gameId = getGameId();
+    let winner;
 
     useEffect(async () => {
         const connection = new signalR.HubConnectionBuilder()
@@ -47,6 +52,10 @@ export const Chat = ({nickName, chatPosts, isGameLead = false}) => {
                     if (post.id === reactionDto.messageId){
                         post.guessState = reactionDto.reaction;
                     }
+                    if (post.guessState === GuessState.CORRECT) {
+                        setOpening(true);
+                        winner = post.author;
+                    }
                     newPosts.push(post)
                 }
               return newPosts;
@@ -64,8 +73,7 @@ export const Chat = ({nickName, chatPosts, isGameLead = false}) => {
     useEffect( () => {
         updatePosts(chatPosts);
     }, [chatPosts]);
-
-
+    
     const onSubmit = async () => {
         const message = inputRef.current.value;
         if (!message) {
@@ -87,6 +95,17 @@ export const Chat = ({nickName, chatPosts, isGameLead = false}) => {
 
     return (
         <div className={'chat'}>
+            {isOpened && (
+                <Modal onClose={() => setOpening(false)}>
+                    <Modal.Header>Игра закончилась</Modal.Header>
+                    <Modal.Body>
+                        <p>Выиграл: {winner}</p>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button use={'default'} onClick={() => window.location = `/waitroom/${gameId}`}>Начать заново</Button>
+                    </Modal.Footer>
+                </Modal>
+            )}
             <div className={'chat_header_nickname'}>Ваш никнейм: {nickName}</div>
             <div className={'chat_header_post-id'}>
                 {posts.map(post => (<Post key={post.id} post={post} guessState={post.guessState} connection={chatConnection} messageId={post.id} activeReactions={isGameLead}/>))}
