@@ -4,6 +4,8 @@ import {Chat} from "./Chat";
 import {Canvas} from "./Canvas";
 import './Game.css';
 import {getGameId, getUserId} from "./WaitingRoom";
+import Modal from "@skbkontur/react-ui/Modal";
+import Button from "@skbkontur/react-ui/Button";
 
 async function getUserById(userId) {
     const response = await fetch(`api/v1/users/${userId}`);
@@ -20,10 +22,9 @@ export const GamePage = ({wordToPaint = 'Сессия'}) => {
     const [userName, setUserName] = useState(undefined);
     const [isGameLead, setIsGameLead] = useState(undefined);
     const [posts, setPosts] = useState([]);
+    const [counter, setCounter] = React.useState(5);
+    const [isOpened, setOpening] = React.useState(false);
 
-    const [counter, setCounter] = React.useState(60);
-
-    const secondsLeft = 299;
     const userId = getUserId();
     const gameId = getGameId();
 
@@ -48,7 +49,7 @@ export const GamePage = ({wordToPaint = 'Сессия'}) => {
 
     useEffect(() => {
         const timer =
-            counter > 0 && setInterval(() => setCounter(counter - 1), 1000);
+            counter === 0 ? setOpening(true) : setInterval(() => setCounter(counter - 1), 1000);
         return () => clearInterval(timer);
     }, [counter]);
 
@@ -60,6 +61,17 @@ export const GamePage = ({wordToPaint = 'Сессия'}) => {
                         До конца игры: {counter}
                     </div>
                 </div>
+                {isOpened && (
+                    <Modal onClose={() => setOpening(false)}>
+                        <Modal.Header>Игра закончилась</Modal.Header>
+                        <Modal.Body>
+                            <p>Выиграл: {userName}</p>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button use={'default'} onClick={() => window.location = `/waitroom/${gameId}`}>Начать заново</Button>
+                        </Modal.Footer>
+                    </Modal>
+                )}
                 {wordToPaint && (
                     <div className={'game-page_field_paint_word'}>Нарисуй слово: {wordToPaint}</div>
                 )}

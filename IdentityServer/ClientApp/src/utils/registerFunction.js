@@ -21,9 +21,15 @@ export async function register() {
             returnUrl
         })
     });
+    
     const data = await response.json();
-
+    
+    if (data.status === 400) {
+        alert('Логин и пароль должны содержать не меньше 3-х символов')
+    }
+    
     if (data && data.isOk) {
         window.location = data.redirectUrl;
     }
+    
 }
