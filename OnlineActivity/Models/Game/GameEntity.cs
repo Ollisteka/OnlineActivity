@@ -24,5 +24,7 @@ namespace OnlineActivity.Models
         public List<Guid> ChatMessageIds { get; set; } = new List<Guid>();
 
         public int GameTimeInSeconds { get; set; } 
+
+        public Dictionary<Guid, int> PointsByPlayerId { get; set; } = new Dictionary<Guid, int>();
     }
 }

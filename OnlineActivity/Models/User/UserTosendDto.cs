@@ -15,5 +15,8 @@ namespace OnlineActivity.Models
 
         [JsonPropertyName("id")]
         public Guid Id { get; set; }
+
+        [JsonPropertyName("points")]
+        public int Points { get; set; }
     }
 }

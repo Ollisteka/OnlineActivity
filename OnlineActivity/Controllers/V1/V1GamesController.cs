@@ -30,7 +30,7 @@ namespace OnlineActivity.Controllers.V1
         public async Task<IActionResult> CreateGameAsync([FromBody] GameToCreateDto gameToCreateDto)
         {
             var gameEntity = mapper.Map<GameEntity>(gameToCreateDto);
-            gameEntity.GameTimeInSeconds = 90;
+            gameEntity.GameTimeInSeconds = 300;
             gameEntity = await gameRepository.InsertAsync(gameEntity);
             var gameToSendDto = mapper.Map<GameToSendDto>(gameEntity);
 
@@ -62,9 +62,12 @@ namespace OnlineActivity.Controllers.V1
                 gameToSendDto.ChatMessages.Add(messageDto);
             }
 
-            var timeLeft = gameEntity.Status == GameStatus.Active
+            var passedTime = gameEntity.Status == GameStatus.Active
                 ? (DateTime.UtcNow - gameEntity.StartTime.Value).Seconds
                 : 0;
+
+
+            var timeLeft = gameEntity.GameTimeInSeconds - passedTime;
 
             if (timeLeft < 0)
             {

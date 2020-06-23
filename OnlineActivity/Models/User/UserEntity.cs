@@ -8,6 +8,8 @@
 
         public string IdentityId { get; set; }
 
+        public int Points { get; set; }
+
         public UserEntity(string login, string email, string identityId)
         {
             Login = login;

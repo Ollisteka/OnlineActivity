@@ -62,14 +62,37 @@ namespace OnlineActivity.Hubs
             }
             var message = await chatMessageRepository.GetAsync(reactionDto.MessageId);
 
+            if (reactionDto.Reaction == Reaction.Warm && message.Reaction == Reaction.None)
+            {
+                if (!game.PointsByPlayerId.ContainsKey(message.UserId))
+                    game.PointsByPlayerId[message.UserId] = 0;
+
+                if (game.PointsByPlayerId[message.UserId] <= 48)
+                    game.PointsByPlayerId[message.UserId] += 2;
+
+                await gameRepository.MergeAsync(game);
+            }
+
+            if (reactionDto.Reaction == Reaction.Correct)
+            {
+                var passedTime = (DateTime.UtcNow - game.StartTime.Value).Seconds;
+                var timeLeft = game.GameTimeInSeconds - passedTime;
+                game.PointsByPlayerId[game.DrawerPlayerId] = timeLeft;
+
+                if (!game.PointsByPlayerId.ContainsKey(message.UserId))
+                    game.PointsByPlayerId[message.UserId] = 0;
+                game.PointsByPlayerId[message.UserId] += 50;
+
+                game.FinishTime = DateTime.UtcNow;
+                game.Status = GameStatus.Finished;
+                await gameRepository.MergeAsync(game);
+            }
+
+
             message.Reaction = reactionDto.Reaction;
             await chatMessageRepository.MergeAsync(message);
 
-            if (message.Reaction == Reaction.Correct)
-            {
-                game.FinishTime = DateTime.UtcNow;
-                await gameRepository.MergeAsync(game);
-            }
+
 
             var groupName = reactionDto.GameId.ToString();
             var reactionToSendDto = mapper.Map<ReactionToSendDto>(reactionDto);

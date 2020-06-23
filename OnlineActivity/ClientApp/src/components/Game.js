@@ -46,6 +46,7 @@ export const GamePage = ({wordToPaint = 'Сессия'}) => {
             })
         }
 
+        setCounter(game.gameTimeLeftInSeconds);
         setPosts(currentPosts)
     }, []);
 
