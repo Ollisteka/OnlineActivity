@@ -1,4 +1,4 @@
-﻿import React from 'react';
+﻿import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 
 import "./Leaderboard.css";
@@ -62,7 +62,11 @@ async function getListOfUsers() {
 }
 
 export const LeaderBoard = () => {
-    const players = getListOfUsers();
+    const [users, setUsers] = useState([]);
+    
+    useEffect( () => {
+        setUsers(getListOfUsers());
+    }, []);
     
     return (
         <div className={'leaderboard'}>
@@ -72,16 +76,16 @@ export const LeaderBoard = () => {
             <div className={'leaderboard_board'}>
                 <div className={'leaderboard_board_row'}>
                     <div className={'leaderboard_board_row_title'}>Игрок</div>
-                    {players.sort((a, b) => b.score - a.score).map(player => (
-                        <div key={player.id} className={'leaderboard_board_row_item'}>
-                            <div>{player.login}</div>
+                    {users.map(user => (
+                        <div key={user.id} className={'leaderboard_board_row_item'}>
+                            <div>{user.login}</div>
                         </div>))}
                 </div>
                 <div className={'leaderboard_board_row'}>
                     <div className={'leaderboard_board_row_title'}>Очки</div>
-                    {players.sort((a, b) => b.score - a.score).map(player => (
-                        <div key={player.id} className={'leaderboard_board_row_item'}>
-                            <div>{player.points}</div>
+                    {users.map(user => (
+                        <div key={user.id} className={'leaderboard_board_row_item'}>
+                            <div>{user.points}</div>
                         </div>))}
                 </div>
                 </div>
