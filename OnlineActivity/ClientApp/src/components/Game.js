@@ -25,6 +25,9 @@ export const GamePage = ({wordToPaint = 'Сессия'}) => {
     const [counter, setCounter] = React.useState(undefined);
     const [isOpened, setOpening] = React.useState(false);
 
+    const [drawerName, setDrawerName] = useState(undefined);
+    const [gameWord, setGameWord] = useState(undefined);
+
     const userId = getUserId();
     const gameId = getGameId();
 
@@ -47,7 +50,9 @@ export const GamePage = ({wordToPaint = 'Сессия'}) => {
         }
         wordToPaint = game.gameWord;
         setCounter(game.gameTimeLeftInSeconds);
-        setPosts(currentPosts)
+        setPosts(currentPosts);
+        setDrawerName(game.drawerLogin);
+        setGameWord(game.gameWord);
     }, []);
 
     useEffect(() => {
@@ -75,9 +80,9 @@ export const GamePage = ({wordToPaint = 'Сессия'}) => {
                         </Modal.Footer>
                     </Modal>
                 )}
-                {wordToPaint && (
-                    (isGameLead ? <div className={'game-page_field_paint_word'}>Нарисуй слово: {wordToPaint}</div>
-                    : <div className={'game-page_field_paint_word'}>Сейчас рисует: {getGameById(gameId).drawerLogin}</div>)
+                {gameWord && (
+                    (isGameLead ? <div className={'game-page_field_paint_word'}>Нарисуй слово: {gameWord}</div>
+                    : <div className={'game-page_field_paint_word'}>Сейчас рисует: {drawerName}</div>)
                 )}
                 <Canvas height={0.6 * window.innerHeight} width={0.7 * window.innerWidth} isGameLead={isGameLead}/>
             </div>
