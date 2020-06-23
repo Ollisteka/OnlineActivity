@@ -72,7 +72,8 @@ namespace OnlineActivity.Hubs
             }
 
             var groupName = reactionDto.GameId.ToString();
-            await Clients.Group(groupName).SendAsync("SendReaction", reactionDto);
+            var reactionToSendDto = mapper.Map<ReactionToSendDto>(reactionDto);
+            await Clients.Group(groupName).SendAsync("SendReaction", reactionToSendDto);
         }
     }
 }
