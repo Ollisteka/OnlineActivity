@@ -3,61 +3,6 @@ import PropTypes from 'prop-types';
 
 import "./Leaderboard.css";
 
-const defaultPlayers = [
-    {
-        name: 'Нюша',
-        playerId: 1,
-        score: 1
-    },
-    {
-        name: 'Бараш',
-        playerId: 2,
-        score: 10
-    },
-    {
-        name: 'Кар-Карыч',
-        playerId: 3,
-        score: 2
-    },
-    {
-        name: 'Смешарик',
-        playerId: 4,
-        score: 4
-    },
-    {
-        name: 'Смешарик',
-        playerId: 4,
-        score: 4
-    },
-    {
-        name: 'Смешарик',
-        playerId: 4,
-        score: 4
-    },
-    {
-        name: 'Смешарик',
-        playerId: 4,
-        score: 4
-    },
-    {
-        name: 'Смешарик',
-        playerId: 4,
-        score: 4
-    },
-    {
-        name: 'Смешарик',
-        playerId: 4,
-        score: 4
-    },
-    {
-        name: 'Смешарик',
-        playerId: 4,
-        score: 4
-    },
-];
-
-
-
 export const LeaderBoard = () => {
     const [users, setUsers] = useState([]);
 

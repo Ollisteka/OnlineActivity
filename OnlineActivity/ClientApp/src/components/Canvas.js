@@ -4,6 +4,7 @@ import {getGameId, getUserId} from './WaitingRoom';
 
 
 import "./Canvas.css";
+import PropTypes from "prop-types";
 
 let currentColor = 'black';
 
@@ -25,7 +26,7 @@ async function getCurrentCanvas() {
     return lines;
 }
 
-export const Canvas = ({height, width}) => {
+export const Canvas = ({height, width, isGameLead}) => {
     const canvasRef = useRef(null);
     const [isPainting, setIsPainting] = useState(false);
     const [mousePosition, setMousePosition] = useState(undefined);
@@ -66,9 +67,11 @@ export const Canvas = ({height, width}) => {
         setCanvasConnection(connection);
 
         const currentCanvas = await getCurrentCanvas();
-        for (const line of currentCanvas)
-            drawLine(line.start, line.end, line.color);
-
+        if (isGameLead) {
+            for (const line of currentCanvas)
+                drawLine(line.start, line.end, line.color);
+        }
+        
         return () => {
             canvasConnection.invoke("RemoveFromGroup", {
                 userId,
@@ -122,7 +125,7 @@ export const Canvas = ({height, width}) => {
     const exitPaint = async () => {
         setIsPainting(false);
         setMousePosition(undefined);
-        if (canvasConnection && linesToSend.length > 0) {
+        if (isGameLead && canvasConnection && linesToSend.length > 0) {
             await canvasConnection.invoke("DrawLines", {
                 lines: linesToSend,
                 gameId,
@@ -158,20 +161,22 @@ export const Canvas = ({height, width}) => {
         if (!canvasRef.current) {
             return;
         }
+        
+        if (isGameLead) {
+            const canvas = canvasRef.current;
+            const context = canvas.getContext('2d');
+            if (context) {
+                context.strokeStyle = color;
+                context.lineJoin = 'round';
+                context.lineWidth = 5;
 
-        const canvas = canvasRef.current;
-        const context = canvas.getContext('2d');
-        if (context) {
-            context.strokeStyle = color;
-            context.lineJoin = 'round';
-            context.lineWidth = 5;
+                context.beginPath();
+                context.moveTo(originalMousePosition.X, originalMousePosition.Y);
+                context.lineTo(newMousePosition.X, newMousePosition.Y);
+                context.closePath();
 
-            context.beginPath();
-            context.moveTo(originalMousePosition.X, originalMousePosition.Y);
-            context.lineTo(newMousePosition.X, newMousePosition.Y);
-            context.closePath();
-
-            context.stroke();
+                context.stroke();
+            } 
         }
     };
 
@@ -217,5 +222,6 @@ export const Canvas = ({height, width}) => {
 Canvas.defaultProps = {
     width: window.innerWidth,
     height: window.innerHeight,
+    isGameLead: PropTypes.bool
 };
 
