@@ -7,6 +7,7 @@ import {getGameId, getUserId} from "./WaitingRoom";
 import Modal from "@skbkontur/react-ui/Modal";
 import Button from "@skbkontur/react-ui/Button";
 
+
 async function getUserById(userId) {
     const response = await fetch(`api/v1/users/${userId}`);
     return await response.json();

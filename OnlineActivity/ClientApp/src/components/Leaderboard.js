@@ -1,6 +1,8 @@
 ﻿import React from 'react';
 import PropTypes from 'prop-types';
 
+import "./Leaderboard.css";
+
 const defaultPlayers = [
     {
         name: 'Нюша',
@@ -22,25 +24,61 @@ const defaultPlayers = [
         playerId: 4,
         score: 4
     },
+    {
+        name: 'Смешарик',
+        playerId: 4,
+        score: 4
+    },
+    {
+        name: 'Смешарик',
+        playerId: 4,
+        score: 4
+    },
+    {
+        name: 'Смешарик',
+        playerId: 4,
+        score: 4
+    },
+    {
+        name: 'Смешарик',
+        playerId: 4,
+        score: 4
+    },
+    {
+        name: 'Смешарик',
+        playerId: 4,
+        score: 4
+    },
+    {
+        name: 'Смешарик',
+        playerId: 4,
+        score: 4
+    },
 ];
 
 export const LeaderBoard = ({players = defaultPlayers}) => {
     return (
-        <div className={'leaderboard centered'}>
-            <header className={'page-header'}>
+        <div className={'leaderboard'}>
+            <header className={'leaderboard_header'}>
                 Лидерборд
             </header>
-            <div className={'board'}>
-                <div className={'row row-header'}>
-                    <div>Игрок</div>
-                    <div>Очки</div>
+            <div className={'leaderboard_board'}>
+                <div className={'leaderboard_board_row'}>
+                    <div className={'leaderboard_board_row_title'}>Игрок</div>
+                    {players.sort((a, b) => b.score - a.score).map(player => (
+                        <div key={player.playerId} className={'leaderboard_board_row_item'}>
+                            <div>{player.name}</div>
+                        </div>))}
                 </div>
-                {players.sort((a, b) => b.score - a.score).map(player => (
-                    <div key={player.playerId} className={'row'}>
-                        <div>{player.name}</div>
-                        <div>{player.score}</div>
-                    </div>))}
-            </div>
+                <div className={'leaderboard_board_row'}>
+                    <div className={'leaderboard_board_row_title'}>Очки</div>
+                    {players.sort((a, b) => b.score - a.score).map(player => (
+                        <div key={player.playerId} className={'leaderboard_board_row_item'}>
+                            <div>{player.score}</div>
+                        </div>))}
+                </div>
+                </div>
+                
         </div>
     );
 };
