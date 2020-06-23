@@ -27,7 +27,6 @@ export const Chat = ({nickName, chatPosts, isGameLead = false}) => {
     const inputRef = useRef(null);
     const userId = getUserId();
     const gameId = getGameId();
-    let winner;
 
     useEffect(async () => {
         const connection = new signalR.HubConnectionBuilder()
@@ -54,7 +53,6 @@ export const Chat = ({nickName, chatPosts, isGameLead = false}) => {
                     }
                     if (post.guessState === GuessState.CORRECT) {
                         setOpening(true);
-                        winner = post.author;
                     }
                     newPosts.push(post)
                 }
@@ -99,10 +97,10 @@ export const Chat = ({nickName, chatPosts, isGameLead = false}) => {
                 <Modal onClose={() => setOpening(false)}>
                     <Modal.Header>Игра закончилась</Modal.Header>
                     <Modal.Body>
-                        <p>Выиграл: {winner}</p>
+                        <p>Выиграл:</p>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button use={'default'} onClick={() => window.location = `/waitroom/${gameId}`}>Начать заново</Button>
+                        <Button use={'default'} onClick={() => window.location = `/`}>Начать заново</Button>
                     </Modal.Footer>
                 </Modal>
             )}

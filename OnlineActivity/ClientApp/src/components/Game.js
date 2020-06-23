@@ -72,7 +72,7 @@ export const GamePage = ({wordToPaint = 'Сессия'}) => {
                             <p>Выиграл: {userName}</p>
                         </Modal.Body>
                         <Modal.Footer>
-                            <Button use={'default'} onClick={() => window.location = `/waitroom/${gameId}`}>Начать заново</Button>
+                            <Button use={'default'} onClick={() => window.location = `/`}>Начать заново</Button>
                         </Modal.Footer>
                     </Modal>
                 )}

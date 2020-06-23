@@ -56,7 +56,14 @@ const defaultPlayers = [
     },
 ];
 
-export const LeaderBoard = ({players = defaultPlayers}) => {
+async function getListOfUsers() {
+    const response = await fetch(`api/v1/statistics/leaderboard`);
+    return await response.json();
+}
+
+export const LeaderBoard = () => {
+    const players = getListOfUsers();
+    
     return (
         <div className={'leaderboard'}>
             <header className={'leaderboard_header'}>
@@ -66,15 +73,15 @@ export const LeaderBoard = ({players = defaultPlayers}) => {
                 <div className={'leaderboard_board_row'}>
                     <div className={'leaderboard_board_row_title'}>Игрок</div>
                     {players.sort((a, b) => b.score - a.score).map(player => (
-                        <div key={player.playerId} className={'leaderboard_board_row_item'}>
-                            <div>{player.name}</div>
+                        <div key={player.id} className={'leaderboard_board_row_item'}>
+                            <div>{player.login}</div>
                         </div>))}
                 </div>
                 <div className={'leaderboard_board_row'}>
                     <div className={'leaderboard_board_row_title'}>Очки</div>
                     {players.sort((a, b) => b.score - a.score).map(player => (
-                        <div key={player.playerId} className={'leaderboard_board_row_item'}>
-                            <div>{player.score}</div>
+                        <div key={player.id} className={'leaderboard_board_row_item'}>
+                            <div>{player.points}</div>
                         </div>))}
                 </div>
                 </div>

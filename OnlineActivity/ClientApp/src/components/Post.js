@@ -59,7 +59,7 @@ export const Post = ({post, activeReactions, guessState, connection, messageId})
                         <p>Выиграл: Вася</p>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button use={'default'} onClick={() => window.location = `/waitroom/${getGameId()}`}>Начать заново</Button>
+                        <Button use={'default'} onClick={() => window.location = `/`}>Начать заново</Button>
                     </Modal.Footer>
                 </Modal>
             )}
