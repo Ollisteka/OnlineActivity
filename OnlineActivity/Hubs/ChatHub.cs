@@ -58,7 +58,7 @@ namespace OnlineActivity.Hubs
             if (game.DrawerPlayerId != reactionDto.UserId)
             {
                 await Clients.Caller.SendAsync("Error", new ErrorMessage { Id = "send-reaction-error", Message = "Only selected drawer can draw on canvas" });
-                    return;
+                return;
             }
             var message = await chatMessageRepository.GetAsync(reactionDto.MessageId);
 

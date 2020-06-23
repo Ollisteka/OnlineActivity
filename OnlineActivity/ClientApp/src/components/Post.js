@@ -8,26 +8,32 @@ export const Post = ({post, activeReactions, guessState, connection, messageId})
     const [guess, setGuessState] = useState(guessState);
     const {author, comment} = post;
     const reactionButtons = activeReactions;
-    const chatConnection = connection;
+    const [chatConnection, setChatConnection] = useState(connection);
 
-    const onColdButtonClick = () => {
-        sendReaction(GuessState.COLD);
+    useEffect(() => {
+        setChatConnection(connection)
+    },[connection]);
+
+    const onColdButtonClick = async () => {
+        await sendReaction(GuessState.COLD);
         setGuessState(GuessState.COLD);
     };
-    const onWarmButtonClick = () => {
-        sendReaction(GuessState.WARM);
+    const onWarmButtonClick = async () => {
+        await sendReaction(GuessState.WARM);
         setGuessState(GuessState.WARM);
     };
-    const onCorrectButtonClick = () => {
-        sendReaction(GuessState.CORRECT);
+    const onCorrectButtonClick = async () => {
+        await sendReaction(GuessState.CORRECT);
         setGuessState(GuessState.CORRECT);
     };
 
-    const sendReaction = (reaction) => {
-        chatConnection.invoke("SendReaction", {
-            gameId: getGameId(),
+    const sendReaction = async (reaction) => {
+        const gameId = getGameId();
+        const userId = getUserId();
+        await chatConnection.invoke("SendReaction", {
+            gameId,
             messageId,
-            userId: getUserId(),
+            userId,
             reaction
         });
     };

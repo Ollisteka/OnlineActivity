@@ -41,7 +41,8 @@ export const GamePage = ({wordToPaint = 'Сессия'}) => {
             currentPosts.push({
                 id: message.id,
                 author: message.userName,
-                comment: message.message
+                comment: message.message,
+                guessState: message.reaction
             })
         }
 

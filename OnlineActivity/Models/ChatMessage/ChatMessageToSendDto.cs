@@ -24,6 +24,7 @@ namespace OnlineActivity.Models
         [JsonProperty(PropertyName = "sendingTime")]
         public DateTime SendingTime { get; set; }
 
-
+        [JsonProperty(PropertyName = "reaction")]
+        public Reaction Reaction { get; set; }
     }
 }

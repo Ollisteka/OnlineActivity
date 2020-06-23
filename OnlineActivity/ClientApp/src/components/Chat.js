@@ -29,8 +29,8 @@ export const Chat = ({nickName, chatPosts, isGameLead = false}) => {
             .withUrl("/chat")
             .build();
 
-        connection.on("SendChatMessage", (drawLinesDto) => {
-            updatePosts(current =>current.concat(createNewPost(drawLinesDto.userName, drawLinesDto.message)));
+        connection.on("SendChatMessage", (messageDto) => {
+            updatePosts(current =>current.concat(createNewPost(messageDto.userName, messageDto.message)));
         });
         await connection.start();
         await connection.invoke("AddToGroup", {
@@ -40,8 +40,16 @@ export const Chat = ({nickName, chatPosts, isGameLead = false}) => {
         setChatConnection(connection);
         
         connection.on("SendReaction", (reactionDto) => {
-            let post = posts.find((post) => post.id === reactionDto.messageId );
-            post.guessState = reactionDto.reaction;
+            updatePosts(currentPosts => {
+                const newPosts = [];
+                for (const post of currentPosts) {
+                    if (post.id === reactionDto.messageId){
+                        post.guessState = reactionDto.reaction;
+                        newPosts.push(post)
+                    }
+                }
+              return newPosts;
+            })
         });
         
         return () => {
@@ -70,7 +78,8 @@ export const Chat = ({nickName, chatPosts, isGameLead = false}) => {
             await chatConnection.invoke("SendChatMessage", {
                 userId,
                 gameId,
-                message
+                message,
+                guessState: GuessState.NONE
             });
         }
     };
