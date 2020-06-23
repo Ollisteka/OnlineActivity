@@ -30,9 +30,10 @@ namespace OnlineActivity.Controllers.V1
         public async Task<IActionResult> CreateGameAsync([FromBody] GameToCreateDto gameToCreateDto)
         {
             var gameEntity = mapper.Map<GameEntity>(gameToCreateDto);
+            gameEntity.GameTimeInSeconds = 90;
             gameEntity = await gameRepository.InsertAsync(gameEntity);
             var gameToSendDto = mapper.Map<GameToSendDto>(gameEntity);
-            
+
             return CreatedAtRoute("GetGameById", 
                 new CreatedGameRouteValue(gameToSendDto.Id), gameToSendDto);
         }
@@ -60,6 +61,22 @@ namespace OnlineActivity.Controllers.V1
                 messageDto.UserName = playerNamesById[messageDto.UserId];
                 gameToSendDto.ChatMessages.Add(messageDto);
             }
+
+            var timeLeft = gameEntity.Status == GameStatus.Active
+                ? (DateTime.UtcNow - gameEntity.StartTime.Value).Seconds
+                : 0;
+
+            if (timeLeft < 0)
+            {
+                timeLeft = 0;
+                if (gameEntity.Status == GameStatus.Active)
+                {
+                    gameEntity.Status = GameStatus.Finished;
+                    await gameRepository.MergeAsync(gameEntity);
+                }
+            }
+
+            gameToSendDto.GameTimeLeftInSeconds = timeLeft;
 
             return Ok(gameToSendDto);
         }

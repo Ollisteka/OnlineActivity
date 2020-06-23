@@ -22,5 +22,7 @@ namespace OnlineActivity.Models
         public List<Line> CanvasLines { get; set; } = new List<Line>();
 
         public List<Guid> ChatMessageIds { get; set; } = new List<Guid>();
+
+        public int GameTimeInSeconds { get; set; } 
     }
 }

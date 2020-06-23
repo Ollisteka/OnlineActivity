@@ -22,7 +22,7 @@ export const GamePage = ({wordToPaint = 'Сессия'}) => {
     const [userName, setUserName] = useState(undefined);
     const [isGameLead, setIsGameLead] = useState(undefined);
     const [posts, setPosts] = useState([]);
-    const [counter, setCounter] = React.useState(5);
+    const [counter, setCounter] = React.useState(undefined);
     const [isOpened, setOpening] = React.useState(false);
 
     const userId = getUserId();
@@ -44,6 +44,7 @@ export const GamePage = ({wordToPaint = 'Сессия'}) => {
                 comment: message.message
             })
         }
+
         setPosts(currentPosts)
     }, []);
 
