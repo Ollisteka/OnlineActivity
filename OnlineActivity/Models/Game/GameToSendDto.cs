@@ -34,6 +34,5 @@ namespace OnlineActivity.Models
 
         [JsonPropertyName("chatMessages")]
         public List<ChatMessageToSendDto> ChatMessages { get; set; } = new List<ChatMessageToSendDto>();
-
     }
 }

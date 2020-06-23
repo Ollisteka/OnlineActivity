@@ -17,8 +17,11 @@ export async function logMeIn() {
             returnUrl
         })
     });
-    const data = await response.json();
+    const data = await response.json(); 
 
+    if (data.status === 401) {
+        console.log("пизда");
+    }
     if (data && data.isOk) {
         window.location = data.redirectUrl;
     }

@@ -11,5 +11,7 @@ namespace OnlineActivity.Models
         public Guid GameId { get; set; }
 
         public string Message { get; set; }
+
+        public Reaction Reaction { get; set; } = Reaction.None;
     }
 }

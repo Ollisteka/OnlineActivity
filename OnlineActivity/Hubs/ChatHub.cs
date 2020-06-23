@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using AutoMapper;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.SignalR;
@@ -50,10 +51,28 @@ namespace OnlineActivity.Hubs
             await Clients.Group(groupName).SendAsync("SendChatMessage", chatMessageToSendDto);
         }
 
-        [HubMethodName("SendReactionAsync")]
-        public async Task SendReactionAsync(ChatMessageDto chatMessageDto)
+        [HubMethodName("SendReaction")]
+        public async Task SendReactionAsync(ReactionDto reactionDto)
         {
+            var game = await gameRepository.GetAsync(reactionDto.GameId);
+            if (game.DrawerPlayerId != reactionDto.UserId)
+            {
+                await Clients.Caller.SendAsync("Error", new ErrorMessage { Id = "send-reaction-error", Message = "Only selected drawer can draw on canvas" });
+                    return;
+            }
+            var message = await chatMessageRepository.GetAsync(reactionDto.MessageId);
 
+            message.Reaction = reactionDto.Reaction;
+            await chatMessageRepository.MergeAsync(message);
+
+            if (message.Reaction == Reaction.Correct)
+            {
+                game.FinishTime = DateTime.UtcNow;
+                await gameRepository.MergeAsync(game);
+            }
+
+            var groupName = reactionDto.GameId.ToString();
+            await Clients.Group(groupName).SendAsync("SendReaction", reactionDto);
         }
     }
 }
